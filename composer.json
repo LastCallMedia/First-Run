@@ -25,7 +25,7 @@
   "require-dev": {
     "drush/drush": "^8.1",
     "drupal/console": "^1.0.0-rc16",
-    "drupal/coder": "^8.3.1",
+    "drupal/coder": "^8.2.12",
     "drupal/drupal-extension": "^3.1",
     "squizlabs/php_codesniffer": "^3.0",
     "drupal/devel": "^1.0.0",
