@@ -31,7 +31,8 @@
     "phpunit/phpunit": "^6",
     "drush/drush": "^8.1",
     "lastcall/mannequin-drupal": "~1.0",
-    "lastcall/composer-upstream-files": "^1.1.1"
+    "lastcall/composer-upstream-files": "^1.1.1",
+    "symfony/phpunit-bridge": "*"
   },
   "autoload": {
     "psr-4": {
