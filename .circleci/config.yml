@@ -36,11 +36,11 @@ jobs:
           name: Save Yarn cache
           key: site-yarn-v1-{{ checksum "yarn.lock" }}
           paths: [ node_modules ]
-      - restore_cache:
-          name: Restore Composer cache
-          keys:
-            - site-composer-v2-{{ checksum "composer.lock" }}
-            - site-composer-v2-
+#      - restore_cache:
+#          name: Restore Composer cache
+#          keys:
+#            - site-composer-v2-{{ checksum "composer.lock" }}
+#            - site-composer-v2-
       - run: {name: 'Composer install', command: 'composer install'}
       - save_cache:
           name: Save Composer cache
