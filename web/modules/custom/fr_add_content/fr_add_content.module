@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Contains fr_add_content.module.
+ */
+
+
+/**
+ * Implements hook_theme().
+ */
+
+function fr_add_content_theme($existing, $type, $theme, $path) {
+  return [
+    'first_run__node_add_list' => [
+      'template' => 'first-run--node-add-list',
+      'base hook' => 'node_add_list',
+    ],
+    'first_run__page__node__add' => [
+      'template' => 'first-run--page--node--add',
+      'render-element' => 'page',
+      'base hook' => 'page',
+    ]
+  ];
+}
+
+function fr_add_content_theme_suggestions_node_add_list_alter(array &$suggestions, array $variables) {
+  $suggestions[] = 'first_run__node_add_list';
+}
+
+function fr_add_content_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  $suggestions[] = 'first_run__page__node__add';
+}
