@@ -80,5 +80,8 @@
     "post-package-update": "Project\\ComposerHandler::postPackageUpdate",
     "post-create-project": "Project\\ComposerHandler::postCreateProject",
     "pre-autoload-dump": "Project\\ComposerHandler::preAutoloadDump"
+  },
+  "config": {
+    "discard-changes": true
   }
 }
