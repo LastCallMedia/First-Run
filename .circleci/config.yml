@@ -36,16 +36,16 @@ jobs:
           name: Save Yarn cache
           key: site-yarn-v1-{{ checksum "yarn.lock" }}
           paths: [ node_modules ]
-#      - restore_cache:
-#          name: Restore Composer cache
-#          keys:
-#            - site-composer-v1-{{ checksum "composer.lock" }}
-#            - site-composer-v1-
+      - restore_cache:
+          name: Restore Composer cache
+          keys:
+            - site-composer-v3-{{ checksum "composer.lock" }}
+            - site-composer-v3-
       - run: {name: 'Composer install', command: 'composer install'}
-#      - save_cache:
-#          name: Save Composer cache
-#          key: site-composer-v1-{{ checksum "composer.lock" }}
-#          paths: [ vendor, web/core, web/modules/contrib, web/themes/contrib ]
+      - save_cache:
+          name: Save Composer cache
+          key: site-composer-v3-{{ checksum "composer.lock" }}
+          paths: [ vendor, web/core, web/modules/contrib, web/themes/contrib ]
       - run: {name: "Execute build", command: "gulp build" }
       - persist_to_workspace:
           root: /var/www
