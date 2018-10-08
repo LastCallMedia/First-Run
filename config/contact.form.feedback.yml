@@ -1,0 +1,14 @@
+uuid: 10ef82b3-4ce4-4bbb-9aa5-1ef146704aa5
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: vymHlgJy26BuI5GGj9-IXjwR3dRC5C0tij4BpWJnoqw
+id: feedback
+label: 'Website feedback'
+recipients:
+  - developers@lastcallmedia.com
+reply: ''
+weight: 0
+message: 'Your message has been sent.'
+redirect: ''
