@@ -2,7 +2,6 @@
 
 namespace Drupal\fr_add_content\Form;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -16,16 +15,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Configure Site Wide Notification.
  */
 class AddContentForm extends ConfigFormBase {
-
-  /**
-   * Constructs an AddContentForm object.
-   *
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The factory for configuration objects.
-   */
-  public function __construct(ConfigFactoryInterface $config_factory) {
-    parent::__construct($config_factory);
-  }
 
   /**
    * {@inheritdoc}
@@ -52,8 +41,6 @@ class AddContentForm extends ConfigFormBase {
 
     $config = $this->config('fr_add_content.settings');
 
-
-
     $form['intro_text'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Intro Text Title'),
@@ -63,13 +50,6 @@ class AddContentForm extends ConfigFormBase {
 
     return $form;
 
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    parent::validateForm($form, $form_state);
   }
 
   /**
@@ -87,7 +67,7 @@ class AddContentForm extends ConfigFormBase {
    */
   protected function getEditableConfigNames() {
     return [
-      'fr_add_content.settings'
+      'fr_add_content.settings',
     ];
   }
 

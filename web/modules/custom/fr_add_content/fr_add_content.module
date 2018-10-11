@@ -56,7 +56,7 @@ function fr_add_content_preprocess_page(&$variables) {
       '#attributes' => [
         'class' => [
           'add-content-intro-text',
-        ]
+        ],
       ],
     ];
   }
