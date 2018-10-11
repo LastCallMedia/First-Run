@@ -42,8 +42,11 @@ class AddContentForm extends ConfigFormBase {
     $config = $this->config('fr_add_content.settings');
 
     $form['intro_text'] = [
-      '#type' => 'textarea',
+      '#type' => 'text_format',
       '#title' => $this->t('Intro Text Title'),
+      '#base_type' => 'textarea',
+      '#format' => 'full_html',
+      '#required' => FALSE,
       '#description' => $this->t('Add custom overview content to the top of the node/add page'),
       '#default_value' => $config->get('intro_text'),
     ];
