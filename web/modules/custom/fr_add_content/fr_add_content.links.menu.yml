@@ -1,0 +1,5 @@
+#Configuration to create link to updates block form.
+fr_add_content.intro_block_form:
+  title: "Add Content Page Settings"
+  route_name: fr_add_content.form
+  parent: fr_core.configuration

@@ -49,6 +49,9 @@
   {{ page.pre_content }}
   {{ page.breadcrumb }}
   <main class="page-content clearfix" role="main">
+    {% if page.fr_content.intro_text %}
+    {{ page.fr_content.intro_text }}
+    {% endif %}
     <div class="visually-hidden"><a id="main-content" tabindex="-1"></a></div>
     {{ page.highlighted }}
     {% if page.help %}
@@ -56,7 +59,6 @@
         {{ page.help }}
       </div>
     {% endif %}
-    <h1>Future Home of a Better Add Content Page.</h1>
     {{ page.content }}
   </main>
 

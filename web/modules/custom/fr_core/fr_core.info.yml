@@ -1,0 +1,5 @@
+name: First Run Core
+type: module
+description: Sets up some basic framework for other First Run specific modules.
+core: 8.x
+package: Custom

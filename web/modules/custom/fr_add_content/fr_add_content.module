@@ -5,6 +5,8 @@
  * Contains fr_add_content.module.
  */
 
+use Drupal\Component\Utility\Xss;
+
 /**
  * Implements hook_theme().
  */
@@ -36,5 +38,26 @@ function fr_add_content_theme_suggestions_page_alter(array &$suggestions, array 
   $route_name = \Drupal::routeMatch()->getRouteName();
   if ($route_name == 'node.add_page') {
     $suggestions[] = 'first_run__page__node__add';
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function fr_add_content_preprocess_page(&$variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name == 'node.add_page') {
+    $config = \Drupal::configFactory()->get('fr_add_content.settings');
+    $intro_text = $config->get('intro_text');
+
+    $variables['page']['fr_content']['intro_text'] = [
+      '#markup' => Xss::filterAdmin($intro_text),
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => [
+          'add-content-intro-text',
+        ]
+      ],
+    ];
   }
 }

@@ -1,0 +1,7 @@
+fr_core.configuration:
+  path: '/admin/config/first-run'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'First Run'
+  requirements:
+    _permission: 'access administration pages'

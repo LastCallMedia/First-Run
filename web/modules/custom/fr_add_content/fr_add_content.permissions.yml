@@ -1,0 +1,4 @@
+administer add content form:
+  title: 'Administer Add Content Form'
+  description: 'Allows access the settings for the First Run node/add page'
+  restrict access: true
