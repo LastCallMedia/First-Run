@@ -1,0 +1,23 @@
+uuid: ab1026db-d079-421c-a0d5-af90ab1f0260
+langcode: en
+status: true
+dependencies:
+  module:
+    - fr_add_content
+    - menu_ui
+third_party_settings:
+  fr_add_content:
+    node_type_key_components: "<p>Features of this Content Type include:</P>\r\n<ul>\r\n<li>cool stuff</li>\r\n<li>more cool stuff</li>\r\n<li>pretty much the best stuff ever.</li>\r\n</ul>"
+    node_type_live_example: 'http://localhost:8080/admin/structure/types/add'
+    node_type_help_link: 'http://localhost:8080/admin/structure/types/add'
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: 'Test type'
+type: test_type
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

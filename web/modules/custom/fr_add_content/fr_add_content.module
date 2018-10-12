@@ -6,6 +6,8 @@
  */
 
 use Drupal\Component\Utility\Xss;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Entity\NodeType;
 
 /**
  * Implements hook_theme().
@@ -25,14 +27,14 @@ function fr_add_content_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Add custom theme template.
+ * Add custom theme template for node add list.
  */
 function fr_add_content_theme_suggestions_node_add_list_alter(array &$suggestions, array $variables) {
   $suggestions[] = 'first_run__node_add_list';
 }
 
 /**
- * Add custom theme template.
+ * Add custom theme template for node add/edit page.
  */
 function fr_add_content_theme_suggestions_page_alter(array &$suggestions, array $variables) {
   $route_name = \Drupal::routeMatch()->getRouteName();
@@ -60,4 +62,63 @@ function fr_add_content_preprocess_page(&$variables) {
       ],
     ];
   }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function fr_add_content_form_node_type_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+
+  /** @var \Drupal\node\NodeTypeForm $node_type_form */
+  $node_type_form = $form_state->getFormObject();
+  /** @var \Drupal\node\Entity\NodeType $node_type */
+  $node_type = $node_type_form->getEntity();
+
+  $form['node_type_key_components'] = [
+    '#type' => 'textarea',
+    '#title' => t('Key Components'),
+    '#default_value' => $node_type->getThirdPartySetting('fr_add_content', 'node_type_key_components', NULL),
+    '#weight' => 0,
+
+  ];
+
+  $form['node_type_live_example'] = [
+    '#type' => 'url',
+    '#title' => t('Link to live example'),
+    '#default_value' => $node_type->getThirdPartySetting('fr_add_content', 'node_type_live_example', NULL),
+    '#maxlength' => 255,
+    '#weight' => 0,
+    '#size' => 30,
+  ];
+
+  $form['node_type_help_link'] = [
+    '#type' => 'url',
+    '#title' => t('Link to help article'),
+    '#default_value' => $node_type->getThirdPartySetting('fr_add_content', 'node_type_help_link', NULL),
+    '#weight' => 0,
+    '#maxlength' => 255,
+    '#size' => 30,
+  ];
+
+  $form['node_type_thumbnail'] = [
+    '#type' => 'file',
+    '#title' => t('Thumbnail Image'),
+    '#description' => t('TBA'),
+    //      '#default_value' => $node_type->getThirdPartySetting('fr_add_content', 'node_type_thumbnail', NULL),
+    '#weight' => 0,
+  ];
+
+  $form['#entity_builders'][] = '_fr_add_content_form_node_type_form_builder';
+
+}
+
+/**
+ * Entity form builder for the node type edit form.
+ */
+function _fr_add_content_form_node_type_form_builder($entity_type, NodeType $node_type, &$form, FormStateInterface $form_state) {
+    $node_type->setThirdPartySetting('fr_add_content', 'node_type_key_components', $form_state->getValue('node_type_key_components'));
+    $node_type->setThirdPartySetting('fr_add_content', 'node_type_live_example', $form_state->getValue('node_type_live_example'));
+    $node_type->setThirdPartySetting('fr_add_content', 'node_type_help_link', $form_state->getValue('node_type_help_link'));
+    //  $node_type->setThirdPartySetting('fr_add_content', 'node_type_thumbnail', $form_state->getValue('node_type_thumbnail'));
+
 }
