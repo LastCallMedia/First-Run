@@ -67,7 +67,7 @@ function fr_add_content_preprocess_page(&$variables) {
 /**
  * Implements hook_form_BASE_FORM_ID_alter().
  */
-function fr_add_content_form_node_type_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
   /** @var \Drupal\node\NodeTypeForm $node_type_form */
   $node_type_form = $form_state->getFormObject();
@@ -104,7 +104,6 @@ function fr_add_content_form_node_type_form_alter(&$form, \Drupal\Core\Form\Form
     '#type' => 'file',
     '#title' => t('Thumbnail Image'),
     '#description' => t('TBA'),
-    //      '#default_value' => $node_type->getThirdPartySetting('fr_add_content', 'node_type_thumbnail', NULL),
     '#weight' => 0,
   ];
 
@@ -116,9 +115,7 @@ function fr_add_content_form_node_type_form_alter(&$form, \Drupal\Core\Form\Form
  * Entity form builder for the node type edit form.
  */
 function _fr_add_content_form_node_type_form_builder($entity_type, NodeType $node_type, &$form, FormStateInterface $form_state) {
-    $node_type->setThirdPartySetting('fr_add_content', 'node_type_key_components', $form_state->getValue('node_type_key_components'));
-    $node_type->setThirdPartySetting('fr_add_content', 'node_type_live_example', $form_state->getValue('node_type_live_example'));
-    $node_type->setThirdPartySetting('fr_add_content', 'node_type_help_link', $form_state->getValue('node_type_help_link'));
-    //  $node_type->setThirdPartySetting('fr_add_content', 'node_type_thumbnail', $form_state->getValue('node_type_thumbnail'));
-
+  $node_type->setThirdPartySetting('fr_add_content', 'node_type_key_components', $form_state->getValue('node_type_key_components'));
+  $node_type->setThirdPartySetting('fr_add_content', 'node_type_live_example', $form_state->getValue('node_type_live_example'));
+  $node_type->setThirdPartySetting('fr_add_content', 'node_type_help_link', $form_state->getValue('node_type_help_link'));
 }
