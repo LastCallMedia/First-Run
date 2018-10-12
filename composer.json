@@ -33,7 +33,8 @@
     "drush/drush": "^8.1",
     "lastcall/mannequin-drupal": "~1.0",
     "lastcall/composer-upstream-files": "^1.1.1",
-    "symfony/phpunit-bridge": "*"
+    "symfony/phpunit-bridge": "*",
+    "drupal/devel": "^1.2"
   },
   "autoload": {
     "psr-4": {
