@@ -1,0 +1,6 @@
+#first_run_tours.tours_form:
+#  title: 'Manage Tours'
+#  route_name: first_run_tours.tours_form
+#  description: 'Manage tours for this node type'
+#  parent: system.admin_config_system
+#  weight: 200
