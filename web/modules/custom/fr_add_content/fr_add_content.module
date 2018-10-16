@@ -9,6 +9,7 @@ use Drupal\Component\Utility\Xss;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\NodeType;
 use Drupal\file\Entity\File;
+
 /**
  * Implements hook_theme().
  */
@@ -131,7 +132,8 @@ function _fr_add_content_node_type_form_builder($entity_type, NodeType $node_typ
 
   if ($form_state->getValue('node_type_thumbnail')) {
     $node_type->setThirdPartySetting('fr_add_content', 'node_type_thumbnail', $form_state->getValue('node_type_thumbnail'));
-  } else {
+  }
+  else {
     $node_type->unsetThirdPartySetting('fr_add_content', 'node_type_thumbnail');
   }
 
