@@ -33,14 +33,15 @@ class ToursForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state, NodeTypeInterface $node_type = NULL) {
     $config = $this->config('first_run_tours.tours');
 
-    kint($node_type);
+//    kint($node_type);
 
     $form = parent::buildForm($form, $form_state);
 
-    $form['enabled'] = [
+    $form['tour_enabled'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Enable tours'),
-      '#description' => $this->t('Check here'),
+      '#title' => $this->t('Enable tour'),
+      '#description' => $this->t('Check here to enable tour for this Content type'),
+      '#default_value' => $config->get('tour_enabled'),
     ];
 
 
@@ -50,17 +51,18 @@ class ToursForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state, NodeTypeInterface $node_type = NULL) {
+  public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state, NodeTypeInterface $node_type = NULL) {
+  public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 
     $this->config('first_run_tours.tours')
+      ->set('tour_enabled', $form_state->getValue('tour_enabled'))
       ->save();
   }
 
