@@ -17,7 +17,11 @@
   <ul class="admin-list">
     <li><h2>Under construction.</h2></li>
     {% for type in types %}
-      <li class="clearfix"><a href="{{ type.url }}"><span class="label">{{ type.label }}</span><div class="description">{{ type.description }}</div></a>
+      <li class="clearfix"><a href="{{ type.url }}"><span class="label">{{ type.label }}</span></a>
+
+        {% if type.description %}
+        <div class="description">{{ type.description }}</div>
+        {% endif %}
 
         {% if type.key_components %}
           <div class="node-type-key-components">{{ type.key_components}}</div>
@@ -30,7 +34,10 @@
         {% if type.help_link %}
           <a href="{{ type.help_link }}" class="node-type-help">View help article</a>
         {% endif %}
+
+       <a href="{{ type.url }}" class="button button--add-content">Add new {{ type.label }}</a>
       </li>
+
     {% endfor %}
   </ul>
 {% else %}
