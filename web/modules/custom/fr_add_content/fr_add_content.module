@@ -8,7 +8,7 @@
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\NodeType;
-
+use Drupal\file\Entity\File;
 /**
  * Implements hook_theme().
  */
@@ -101,16 +101,10 @@ function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $fo
   ];
 
   $form['node_type_thumbnail'] = [
-    '#type' => 'file',
-    '#title' => t('Thumbnail Image'),
-    '#description' => t('TBA'),
-    '#weight' => 0,
-  ];
-
-  $form['node_type_thumbnail'] = [
     '#type' => 'managed_file',
     '#title' => t('Thumbnail'),
     '#upload_validators' => [
+      'file_validate_is_image'      => [],
       'file_validate_extensions' => ['gif png jpg jpeg'],
       'file_validate_size' => [25600000],
     ],
@@ -134,5 +128,18 @@ function _fr_add_content_node_type_form_builder($entity_type, NodeType $node_typ
   $node_type->setThirdPartySetting('fr_add_content', 'node_type_key_components', $form_state->getValue('node_type_key_components'));
   $node_type->setThirdPartySetting('fr_add_content', 'node_type_live_example', $form_state->getValue('node_type_live_example'));
   $node_type->setThirdPartySetting('fr_add_content', 'node_type_help_link', $form_state->getValue('node_type_help_link'));
-  $node_type->setThirdPartySetting('fr_add_content', 'node_type_thumbnail', $form_state->getValue('node_type_thumbnail'));
+
+  if ($form_state->getValue('node_type_thumbnail')) {
+    $node_type->setThirdPartySetting('fr_add_content', 'node_type_thumbnail', $form_state->getValue('node_type_thumbnail'));
+  } else {
+    $node_type->unsetThirdPartySetting('fr_add_content', 'node_type_thumbnail');
+  }
+
+  if ($image = $form_state->getValue('node_type_thumbnail')) {
+    if (!empty($image['fids'][0]) && $file = File::load($image['fids'][0])) {
+      $file->setPermanent();
+      $file->save();
+    }
+  };
+
 }
