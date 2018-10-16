@@ -73,7 +73,7 @@ function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $fo
   $node_type_form = $form_state->getFormObject();
   /** @var \Drupal\node\Entity\NodeType $node_type */
   $node_type = $node_type_form->getEntity();
-
+  
   $form['node_type_key_components'] = [
     '#type' => 'textarea',
     '#title' => t('Key Components'),
@@ -107,15 +107,32 @@ function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $fo
     '#weight' => 0,
   ];
 
-  $form['#entity_builders'][] = '_fr_add_content_form_node_type_form_builder';
+  $form['node_type_thumbnail'] = [
+    '#type' => 'managed_file',
+    '#title' => t('Thumbnail'),
+    '#upload_validators' => [
+      'file_validate_extensions' => ['gif png jpg jpeg'],
+      'file_validate_size' => [25600000],
+    ],
+    '#theme' => 'image_widget',
+    '#preview_image_style' => 'medium',
+    '#upload_location' => 'public://node_type_thumbnail',
+    '#required' => FALSE,
+    '#default_value' => $node_type->getThirdPartySetting('fr_add_content', 'node_type_thumbnail'),
+    '#weight' => 0,
+  ];
+
+  $form['#entity_builders'][] = '_fr_add_content_node_type_form_builder';
 
 }
 
 /**
  * Entity form builder for the node type edit form.
  */
-function _fr_add_content_form_node_type_form_builder($entity_type, NodeType $node_type, &$form, FormStateInterface $form_state) {
+function _fr_add_content_node_type_form_builder($entity_type, NodeType $node_type, &$form, FormStateInterface $form_state) {
+
   $node_type->setThirdPartySetting('fr_add_content', 'node_type_key_components', $form_state->getValue('node_type_key_components'));
   $node_type->setThirdPartySetting('fr_add_content', 'node_type_live_example', $form_state->getValue('node_type_live_example'));
   $node_type->setThirdPartySetting('fr_add_content', 'node_type_help_link', $form_state->getValue('node_type_help_link'));
+  $node_type->setThirdPartySetting('fr_add_content', 'node_type_thumbnail', $form_state->getValue('node_type_thumbnail'));
 }
