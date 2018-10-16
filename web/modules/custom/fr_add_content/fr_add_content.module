@@ -73,7 +73,7 @@ function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $fo
   $node_type_form = $form_state->getFormObject();
   /** @var \Drupal\node\Entity\NodeType $node_type */
   $node_type = $node_type_form->getEntity();
-  
+
   $form['node_type_key_components'] = [
     '#type' => 'textarea',
     '#title' => t('Key Components'),
