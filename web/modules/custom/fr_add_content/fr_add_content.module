@@ -5,10 +5,28 @@
  * Contains fr_add_content.module.
  */
 
-use Drupal\Component\Utility\Xss;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\NodeType;
 use Drupal\file\Entity\File;
+use Drupal\Component\Utility\Xss;
+use Drupal\Component\Utility\UrlHelper;
+
+/**
+ * Implements hook_help().
+ */
+function fr_add_content_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the mass_admin_pages module.
+    case 'help.page.mass_admin_pages':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Adds a custom add content page that enhances the node add list with extra information.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
 
 /**
  * Implements hook_theme().
@@ -75,10 +93,15 @@ function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $fo
   /** @var \Drupal\node\Entity\NodeType $node_type */
   $node_type = $node_type_form->getEntity();
 
+  $key_components_config = $node_type->getThirdPartySetting('fr_add_content', 'node_type_key_components', NULL);
+  $live_example_config = $node_type->getThirdPartySetting('fr_add_content', 'node_type_live_example', NULL);
+  $help_link_config = $node_type->getThirdPartySetting('fr_add_content', 'node_type_help_link', NULL);
+  $thumbnail_config = $node_type->getThirdPartySetting('fr_add_content', 'node_type_thumbnail');
+
   $form['node_type_key_components'] = [
     '#type' => 'textarea',
     '#title' => t('Key Components'),
-    '#default_value' => $node_type->getThirdPartySetting('fr_add_content', 'node_type_key_components', NULL),
+    '#default_value' => $key_components_config,
     '#weight' => 0,
 
   ];
@@ -86,7 +109,7 @@ function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $fo
   $form['node_type_live_example'] = [
     '#type' => 'url',
     '#title' => t('Link to live example'),
-    '#default_value' => $node_type->getThirdPartySetting('fr_add_content', 'node_type_live_example', NULL),
+    '#default_value' => $live_example_config,
     '#maxlength' => 255,
     '#weight' => 0,
     '#size' => 30,
@@ -95,7 +118,7 @@ function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $fo
   $form['node_type_help_link'] = [
     '#type' => 'url',
     '#title' => t('Link to help article'),
-    '#default_value' => $node_type->getThirdPartySetting('fr_add_content', 'node_type_help_link', NULL),
+    '#default_value' => $help_link_config,
     '#weight' => 0,
     '#maxlength' => 255,
     '#size' => 30,
@@ -113,7 +136,7 @@ function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $fo
     '#preview_image_style' => 'medium',
     '#upload_location' => 'public://node_type_thumbnail',
     '#required' => FALSE,
-    '#default_value' => $node_type->getThirdPartySetting('fr_add_content', 'node_type_thumbnail'),
+    '#default_value' => $thumbnail_config,
     '#weight' => 0,
   ];
 
@@ -144,4 +167,28 @@ function _fr_add_content_node_type_form_builder($entity_type, NodeType $node_typ
     }
   };
 
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Prepare variables for node type display in node-add-list.
+ */
+function fr_add_content_preprocess_node_add_list(&$variables) {
+  if (!empty($variables['content'])) {
+    foreach ($variables['content'] as $type) {
+
+      $config = $type->getThirdPartySetting('fr_add_content', 'node_type_key_components');
+      if (isset($config)) {
+        $variables['types'][$type->id()]['key_components'] = [
+          '#title' => 'Key Components',
+          '#type' => 'item',
+          '#markup' => Xss::filterAdmin($config),
+        ];
+      }
+
+      $variables['types'][$type->id()]['live_example'] = UrlHelper::filterBadProtocol($type->getThirdPartySetting('fr_add_content', 'node_type_live_example'));
+      $variables['types'][$type->id()]['help_link'] = UrlHelper::filterBadProtocol($type->getThirdPartySetting('fr_add_content', 'node_type_help_link'));
+    }
+  }
 }

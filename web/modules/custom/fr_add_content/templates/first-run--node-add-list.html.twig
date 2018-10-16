@@ -17,7 +17,20 @@
   <ul class="admin-list">
     <li><h2>Under construction.</h2></li>
     {% for type in types %}
-      <li class="clearfix"><a href="{{ type.url }}"><span class="label">{{ type.label }}</span><div class="description">{{ type.description }}</div></a></li>
+      <li class="clearfix"><a href="{{ type.url }}"><span class="label">{{ type.label }}</span><div class="description">{{ type.description }}</div></a>
+
+        {% if type.key_components %}
+          <div class="node-type-key-components">{{ type.key_components}}</div>
+        {% endif %}
+
+        {% if type.live_example %}
+          <a href="{{ type.live_example }}" class="live-example">View live example</a>
+        {% endif %}
+
+        {% if type.help_link %}
+          <a href="{{ type.help_link }}" class="node-type-help">View help article</a>
+        {% endif %}
+      </li>
     {% endfor %}
   </ul>
 {% else %}
