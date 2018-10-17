@@ -7,6 +7,7 @@
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\tour\Entity\Tour;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_help().
@@ -51,5 +52,15 @@ function first_run_tours_page_bottom(array &$page_bottom) {
         $page_bottom['tour'] = $view_builder->viewMultiple($tours, 'full');
       }
     }
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function first_run_tours_form_tour_form_alter(&$form, FormStateInterface $form_state) {
+  if ($form_state->getFormObject()->getEntity()->get('module') == 'first_run_tours') {
+    $form['module']['#disabled'] = 'disabled';
+    $form['routes']['#disabled'] = 'disabled';
   }
 }
