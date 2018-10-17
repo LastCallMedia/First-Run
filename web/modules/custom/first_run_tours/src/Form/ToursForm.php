@@ -4,7 +4,7 @@ namespace Drupal\first_run_tours\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\node\NodeTypeInterface;
+use Drupal\node\Entity\NodeType;
 
 /**
  * Class ToursForm.
@@ -30,10 +30,8 @@ class ToursForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, NodeTypeInterface $node_type = NULL) {
-    $config = $this->config('first_run_tours.tours');
-
-//    kint($node_type);
+  public function buildForm(array $form, FormStateInterface $form_state, NodeType $node_type = NULL) {
+    $type = $node_type->get('type');
 
     $form = parent::buildForm($form, $form_state);
 
@@ -41,9 +39,8 @@ class ToursForm extends ConfigFormBase {
       '#type' => 'checkbox',
       '#title' => $this->t('Enable tour'),
       '#description' => $this->t('Check here to enable tour for this Content type'),
-      '#default_value' => $config->get('tour_enabled'),
+      '#default_value' => $node_type->getThirdPartySetting('first_run_tours', $type),
     ];
-
 
     return $form;
   }
@@ -59,11 +56,11 @@ class ToursForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    parent::submitForm($form, $form_state);
-
-    $this->config('first_run_tours.tours')
-      ->set('tour_enabled', $form_state->getValue('tour_enabled'))
-      ->save();
+    $type = $form_state->getBuildInfo()['args'][0]->get('type'); // Don't use the [0], find method
+    $node_type = NodeType::load($type);
+    $tour_enabled_value = $form_state->getValue('tour_enabled');
+    $node_type->setThirdPartySetting('first_run_tours', $type, $tour_enabled_value);
+    $node_type->save();
   }
 
 }
