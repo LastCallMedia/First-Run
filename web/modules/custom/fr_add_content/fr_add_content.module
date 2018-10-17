@@ -146,7 +146,6 @@ function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $fo
 
 /**
  * Entity form builder for the node type edit form.
- * 
  */
 function _fr_add_content_node_type_form_builder($entity_type, NodeType $node_type, &$form, FormStateInterface $form_state) {
 
