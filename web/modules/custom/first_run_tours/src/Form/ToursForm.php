@@ -54,9 +54,12 @@ class ToursForm extends ConfigFormBase {
 
   /**
    * {@inheritdoc}
+   *
+   * @todo: Don't use [0], find method to get type.
+   * @todo: Use dependency injection instead of NodeType::load.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $type = $form_state->getBuildInfo()['args'][0]->get('type'); // Don't use the [0], find method
+    $type = $form_state->getBuildInfo()['args'][0]->get('type');
     $node_type = NodeType::load($type);
     $tour_enabled_value = $form_state->getValue('tour_enabled');
     $node_type->setThirdPartySetting('first_run_tours', $type, $tour_enabled_value);
