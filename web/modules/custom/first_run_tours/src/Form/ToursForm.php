@@ -60,8 +60,8 @@ class ToursForm extends ConfigFormBase {
    * @todo: Use dependency injection instead of NodeType::load.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $ct_machine_name = $form_state->getBuildInfo()['args'][0]->get('type'); // e.g. 'page'
-    $ct_name = $form_state->getBuildInfo()['args'][0]->get('name'); // e.g. 'Basic page'
+    $ct_machine_name = $form_state->getBuildInfo()['args'][0]->get('type');
+    $ct_name = $form_state->getBuildInfo()['args'][0]->get('name');
     $tour_id = 'node-edit-' . $ct_machine_name;
     $node_type = NodeType::load($ct_machine_name);
     $tour_enabled_value = $form_state->getValue('tour_enabled');
@@ -70,7 +70,7 @@ class ToursForm extends ConfigFormBase {
 
     // Add tour based on this content type.
     if ($tour_enabled_value === 1) {
-      $this->_createTour($ct_name, $tour_id);
+      $this->createTour($ct_name, $tour_id);
       $form_state->setRedirect('entity.tour.edit_form', ['tour' => $tour_id]);
     }
 
@@ -78,12 +78,16 @@ class ToursForm extends ConfigFormBase {
   }
 
   /**
-   * @param $ct_name
-   * @param $tour_id
+   * Create tour.
+   *
+   * @param string $ct_name
+   *   Human readable CT name.
+   * @param string $tour_id
+   *   ID of the tour.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function _createTour($ct_name, $tour_id) {
+  public function createTour($ct_name, $tour_id) {
     $values = \Drupal::entityQuery('tour')->condition('id', $tour_id)->execute();
 
     if (empty($values)) {
