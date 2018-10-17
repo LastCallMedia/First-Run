@@ -36,11 +36,18 @@ class ToursForm extends ConfigFormBase {
 
     $form = parent::buildForm($form, $form_state);
 
-    $form['tour_enabled'] = [
+    $form['first_run_tour']['tour_enabled'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Enable tour'),
       '#description' => $this->t('Check here to enable tour for this Content type'),
       '#default_value' => $node_type->getThirdPartySetting('first_run_tours', $type),
+    ];
+    $form['first_run_tour']['fields'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Select fields'),
+      '#options' => ['one', 'two', 'three'],
+      '#empty_option' => $this->t('- Select -'),
+      '#multiple' => TRUE,
     ];
 
     return $form;
@@ -56,7 +63,7 @@ class ToursForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    *
-   * @todo: Don't use [0], find method to get type.
+   * @todo: Don't use [0] for $ct_machine_name, find method to get type.
    * @todo: Use dependency injection instead of NodeType::load.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
