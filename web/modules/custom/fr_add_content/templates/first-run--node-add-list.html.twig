@@ -20,7 +20,7 @@
       <li class="clearfix"><a href="{{ type.url }}"><span class="label">{{ type.label }}</span></a>
 
         {% if type.description %}
-        <div class="description">{{ type.description }}</div>
+          <div class="description">{{ type.description }}</div>
         {% endif %}
 
         {% if type.key_components %}
@@ -35,7 +35,12 @@
           <a href="{{ type.help_link }}" class="node-type-help">View help article</a>
         {% endif %}
 
-       <a href="{{ type.url }}" class="button button--add-content">Add new {{ type.label }}</a>
+        <a href="{{ type.url }}" class="button button--add-content">Add new {{ type.label }}</a>
+
+        {% if type.image %}
+          {{ type.image }}
+        {% endif %}
+
       </li>
 
     {% endfor %}

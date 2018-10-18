@@ -96,7 +96,7 @@ function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $fo
   $key_components_config = $node_type->getThirdPartySetting('fr_add_content', 'node_type_key_components', NULL);
   $live_example_config = $node_type->getThirdPartySetting('fr_add_content', 'node_type_live_example', NULL);
   $help_link_config = $node_type->getThirdPartySetting('fr_add_content', 'node_type_help_link', NULL);
-  $thumbnail_config = $node_type->getThirdPartySetting('fr_add_content', 'node_type_thumbnail');
+  $thumbnail_config = $node_type->getThirdPartySetting('fr_add_content', 'node_type_thumbnail', NULL);
 
   $form['node_type_key_components'] = [
     '#type' => 'textarea',
@@ -171,24 +171,45 @@ function _fr_add_content_node_type_form_builder($entity_type, NodeType $node_typ
 
 /**
  * Implements hook_preprocess_HOOK().
- *
- * Prepare variables for node type display in node-add-list.
  */
 function fr_add_content_preprocess_node_add_list(&$variables) {
   if (!empty($variables['content'])) {
     foreach ($variables['content'] as $type) {
 
-      $config = $type->getThirdPartySetting('fr_add_content', 'node_type_key_components');
-      if (isset($config)) {
+      // Key Components.
+      $key_config = $type->getThirdPartySetting('fr_add_content', 'node_type_key_components');
+      if (isset($key_config)) {
         $variables['types'][$type->id()]['key_components'] = [
           '#title' => 'Key Components',
           '#type' => 'item',
-          '#markup' => Xss::filterAdmin($config),
+          '#markup' => Xss::filterAdmin($key_config),
         ];
       }
 
+      // Live Example.
       $variables['types'][$type->id()]['live_example'] = UrlHelper::filterBadProtocol($type->getThirdPartySetting('fr_add_content', 'node_type_live_example'));
+
+      // Help Link.
       $variables['types'][$type->id()]['help_link'] = UrlHelper::filterBadProtocol($type->getThirdPartySetting('fr_add_content', 'node_type_help_link'));
+
+      // Thumbnail image.
+      $thumb_fid = $type->getThirdPartySetting('fr_add_content', 'node_type_thumbnail');
+      if (!is_null($thumb_fid)) {
+        $image = File::load($thumb_fid[0]);
+        $type_id = $variables['types'][$type->id()]['type'];
+
+        if ($image) {
+          $variables['types'][$type->id()]['image'] = [
+            '#theme' => 'image_style',
+            '#style_name' => 'thumbnail',
+            '#uri' => $image->getFileUri(),
+            '#alt' => 'Thumbnail image of the ' . $type_id . ' content type',
+          ];
+        }
+
+      }
     }
+
   }
+
 }
