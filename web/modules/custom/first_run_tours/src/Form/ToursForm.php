@@ -70,16 +70,20 @@ class ToursForm extends ConfigFormBase {
     $ct_machine_name = $form_state->getBuildInfo()['args'][0]->get('type');
     $ct_name = $form_state->getBuildInfo()['args'][0]->get('name');
     $tour_id = 'node-edit-' . $ct_machine_name;
+    /* @var $node_type \Drupal\node\Entity\NodeType */
     $node_type = NodeType::load($ct_machine_name);
     $tour_enabled_value = $form_state->getValue('tour_enabled');
     $node_type->setThirdPartySetting('first_run_tours', $ct_machine_name, $tour_enabled_value);
     $node_type->save();
 
-    // Add tour based on this content type.
-    if ($tour_enabled_value === 1) {
-      $this->createTour($ct_name, $tour_id);
-      $form_state->setRedirect('entity.tour.edit_form', ['tour' => $tour_id]);
+    if ($tour_enabled_value !== 1) {
+      return;
     }
+
+    // Add tips and tour based on this content type.
+    $field_tips = $this->createTips($ct_machine_name);
+    $this->createTour($ct_name, $tour_id, $field_tips);
+    $form_state->setRedirect('entity.tour.edit_form', ['tour' => $tour_id]);
 
     return;
   }
@@ -94,7 +98,7 @@ class ToursForm extends ConfigFormBase {
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function createTour($ct_name, $tour_id) {
+  public function createTour($ct_name, $tour_id, $field_tips) {
     $values = \Drupal::entityQuery('tour')->condition('id', $tour_id)->execute();
 
     if (empty($values)) {
@@ -103,9 +107,45 @@ class ToursForm extends ConfigFormBase {
         'label' => 'Node Edit ' . $ct_name,
         'module' => 'first_run_tours',
         'routes' => [],
+        'tips' => $field_tips,
       ]);
       $tour->save();
     }
+  }
+
+
+  /**
+   * @param $ct_machine_name
+   *
+   * @return array
+   */
+  public function createTips($ct_machine_name) {
+    $field_tips = [];
+
+    $fields = \Drupal::service('entity.manager')->getFieldDefinitions('node', $ct_machine_name);
+
+    foreach ($fields as $field) {
+      // Try to filter out base fields.
+      if(!method_exists($field, 'isBaseField') && !method_exists($field, 'getBaseFieldDefinition')) {
+
+        $field_name = $field->label();
+        $field_machine_name = $field->getName();
+        $field_tip_id = $field_machine_name . '_tip';
+
+        $field_tips[$field_tip_id] = [
+          'id' => $field_tip_id,
+          'plugin' => 'text',
+          'label' => $field_name . ' tip',
+          'body' => '',
+          'weight' => '100',
+//          'attributes' => [
+//            'data-id' => 'edit-field-image-wrapper', //edit-body-wrapper
+//          ],
+        ];
+      }
+    }
+
+    return $field_tips;
   }
 
 }
