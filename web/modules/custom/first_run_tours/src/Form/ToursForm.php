@@ -69,7 +69,7 @@ class ToursForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $ct_machine_name = $form_state->getBuildInfo()['args'][0]->get('type');
     $ct_name = $form_state->getBuildInfo()['args'][0]->get('name');
-    $tour_id = 'node-edit-' . $ct_machine_name;
+    $tour_id = TOUR_ID_PREFIX . $ct_machine_name;
     /* @var $node_type \Drupal\node\Entity\NodeType */
     $node_type = NodeType::load($ct_machine_name);
     $tour_enabled_value = $form_state->getValue('tour_enabled');
