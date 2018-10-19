@@ -9,8 +9,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\tour\Entity\Tour;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\NodeType;
-
-const TOUR_ID_PREFIX = 'node-add-';
+use Drupal\first_run_tours\Form\ToursForm;
 
 /**
  * Implements hook_help().
@@ -44,13 +43,13 @@ function first_run_tours_page_bottom(array &$page_bottom) {
   $node_type = NodeType::load($ct_machine_name);
 
   // "Enable tour" checkbox must be checked.
-  if ($node_type == null || $node_type->getThirdPartySetting('first_run_tours', $ct_machine_name) == 0) {
+  if ($node_type == NULL || $node_type->getThirdPartySetting('first_run_tours', $ct_machine_name) == 0) {
     return;
   }
 
   if (isset($ct_machine_name)) {
     $results = \Drupal::entityQuery('tour')
-      ->condition('id', TOUR_ID_PREFIX . $ct_machine_name)
+      ->condition('id', ToursForm::TOUR_ID_PREFIX . $ct_machine_name)
       ->execute();
 
     if (!empty($results) && $tours = Tour::loadMultiple(array_keys($results))) {
@@ -77,10 +76,10 @@ function first_run_tours_form_tour_form_alter(&$form, FormStateInterface $form_s
  */
 function first_run_tours_tour_delete($entity) {
   if ($entity->getModule() == 'first_run_tours') {
-    $ct_machine_name = str_replace(TOUR_ID_PREFIX, '', $entity->id());
+    $ct_machine_name = str_replace(ToursForm::TOUR_ID_PREFIX, '', $entity->id());
     $node_type = NodeType::load($ct_machine_name);
 
-    if ($node_type !== null && $node_type->getThirdPartySetting('first_run_tours', $ct_machine_name)) {
+    if ($node_type !== NULL && $node_type->getThirdPartySetting('first_run_tours', $ct_machine_name)) {
       $node_type->setThirdPartySetting('first_run_tours', $ct_machine_name, 0)->save();
     }
   }

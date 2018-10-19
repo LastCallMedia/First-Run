@@ -12,6 +12,8 @@ use Drupal\tour\Entity\Tour;
  */
 class ToursForm extends ConfigFormBase {
 
+  const TOUR_ID_PREFIX = 'node-add-';
+
   /**
    * {@inheritdoc}
    */
@@ -29,6 +31,16 @@ class ToursForm extends ConfigFormBase {
   }
 
   /**
+   * Return constant.
+   *
+   * @return string
+   *   Returns a constant string.
+   */
+  public function returnTourIdPrefix() {
+    return self::TOUR_ID_PREFIX;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, NodeType $node_type = NULL) {
@@ -41,13 +53,6 @@ class ToursForm extends ConfigFormBase {
       '#title' => $this->t('Enable tour'),
       '#description' => $this->t('Check here to enable tour for this Content type'),
       '#default_value' => $node_type->getThirdPartySetting('first_run_tours', $type),
-    ];
-    $form['first_run_tour']['fields'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Select fields'),
-      '#options' => ['one', 'two', 'three'],
-      '#empty_option' => $this->t('- Select -'),
-      '#multiple' => TRUE,
     ];
 
     return $form;
@@ -69,7 +74,7 @@ class ToursForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $ct_machine_name = $form_state->getBuildInfo()['args'][0]->get('type');
     $ct_name = $form_state->getBuildInfo()['args'][0]->get('name');
-    $tour_id = TOUR_ID_PREFIX . $ct_machine_name;
+    $tour_id = $this->returnTourIdPrefix() . $ct_machine_name;
     /* @var $node_type \Drupal\node\Entity\NodeType */
     $node_type = NodeType::load($ct_machine_name);
     $tour_enabled_value = $form_state->getValue('tour_enabled');
@@ -95,10 +100,12 @@ class ToursForm extends ConfigFormBase {
    *   Human readable CT name.
    * @param string $tour_id
    *   ID of the tour.
+   * @param array $field_tips
+   *   Array of tour tips.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
-  public function createTour($ct_name, $tour_id, $field_tips) {
+  public function createTour($ct_name, $tour_id, array $field_tips) {
     $values = \Drupal::entityQuery('tour')->condition('id', $tour_id)->execute();
 
     if (empty($values)) {
@@ -113,11 +120,14 @@ class ToursForm extends ConfigFormBase {
     }
   }
 
-
   /**
-   * @param $ct_machine_name
+   * Returns an array of tips based on CT fields.
+   *
+   * @param string $ct_machine_name
+   *   Parameter is CT type, e.g., 'article'.
    *
    * @return array
+   *   Returns tip array.
    */
   public function createTips($ct_machine_name) {
     $field_tips = [];
@@ -126,7 +136,7 @@ class ToursForm extends ConfigFormBase {
 
     foreach ($fields as $field) {
       // Try to filter out base fields.
-      if(!method_exists($field, 'isBaseField') && !method_exists($field, 'getBaseFieldDefinition')) {
+      if (!method_exists($field, 'isBaseField') && !method_exists($field, 'getBaseFieldDefinition')) {
 
         $field_name = $field->label();
         $field_machine_name = $field->getName();
@@ -137,10 +147,7 @@ class ToursForm extends ConfigFormBase {
           'plugin' => 'text',
           'label' => $field_name . ' tip',
           'body' => '',
-          'weight' => '100',
-//          'attributes' => [
-//            'data-id' => 'edit-field-image-wrapper', //edit-body-wrapper
-//          ],
+          'weight' => '100'
         ];
       }
     }
