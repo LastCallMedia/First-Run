@@ -47,7 +47,7 @@ class ToursForm extends ConfigFormBase {
     $type = $node_type->get('type');
     $form = parent::buildForm($form, $form_state);
     $ct_machine_name = $form_state->getBuildInfo()['args'][0]->get('type');
-    
+
     // Load the Tour tips, convert hyphenated tour ids to field underscore id.
     $tour_id = $this->returnTourIdPrefix() . $ct_machine_name;
     $tour_tips = Tour::load($tour_id) ? Tour::load($tour_id)->getTips() : NULL;
@@ -66,7 +66,7 @@ class ToursForm extends ConfigFormBase {
     ];
     $form['first_run_tour']['field_select'] = [
       '#type' => 'select',
-      '#title' => $this->t('Select fields'),
+      '#title' => $this->t('Select Tour Tip fields'),
       '#options' => $this->getConfigFieldNames($ct_machine_name),
       '#empty_option' => $this->t('- Select -'),
       '#multiple' => TRUE,
@@ -111,6 +111,7 @@ class ToursForm extends ConfigFormBase {
       $label = $fields[$value] ? $fields[$value]->getLabel() : $value;
       $field_names[] = [
         'label' => $label,
+        'data_id' => str_replace('_', '-', $value),
         'tip_id' => ToursForm::TOUR_ID_PREFIX . str_replace('_', '-', $value),
       ];
     }
@@ -168,7 +169,11 @@ class ToursForm extends ConfigFormBase {
         'plugin' => 'text',
         'label' => $field['label'],
         'body' => '',
-        'weight' => '100'
+        'weight' => '100',
+        'location' => 'top',
+        'attributes' => [
+          'data-id' => 'edit-' . $field['data_id'] . '-wrapper', //edit-body-wrapper
+        ],
       ];
     }
 
