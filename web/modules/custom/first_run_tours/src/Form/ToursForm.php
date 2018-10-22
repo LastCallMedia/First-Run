@@ -45,14 +45,32 @@ class ToursForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state, NodeType $node_type = NULL) {
     $type = $node_type->get('type');
-
     $form = parent::buildForm($form, $form_state);
+    $ct_machine_name = $form_state->getBuildInfo()['args'][0]->get('type');
+    
+    // Load the Tour tips, convert hyphenated tour ids to field underscore id.
+    $tour_id = $this->returnTourIdPrefix() . $ct_machine_name;
+    $tour_tips = Tour::load($tour_id) ? Tour::load($tour_id)->getTips() : NULL;
+    $tips = [];
+    if (isset($tour_tips)) {
+      foreach ($tour_tips as $tip) {
+        $tips[] = str_replace([ToursForm::TOUR_ID_PREFIX, '-'], ['','_'], $tip->id());
+      }
+    }
 
     $form['first_run_tour']['tour_enabled'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Enable tour'),
       '#description' => $this->t('Check here to enable tour for this Content type'),
       '#default_value' => $node_type->getThirdPartySetting('first_run_tours', $type),
+    ];
+    $form['first_run_tour']['field_select'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Select fields'),
+      '#options' => $this->getConfigFieldNames($ct_machine_name),
+      '#empty_option' => $this->t('- Select -'),
+      '#multiple' => TRUE,
+      '#default_value' => $tips
     ];
 
     return $form;
@@ -85,8 +103,20 @@ class ToursForm extends ConfigFormBase {
       return;
     }
 
+    // Create an array of fields with label and hyphenated machine name in order to create tour tips.
+    $field_names = [];
+    $fields = \Drupal::service('entity_field.manager')->getFieldDefinitions('node', $ct_machine_name);
+    $selected_values = $form_state->getValues()['field_select'];
+    foreach ($selected_values as $value) {
+      $label = $fields[$value] ? $fields[$value]->getLabel() : $value;
+      $field_names[] = [
+        'label' => $label,
+        'tip_id' => ToursForm::TOUR_ID_PREFIX . str_replace('_', '-', $value),
+      ];
+    }
+
     // Add tips and tour based on this content type.
-    $field_tips = $this->createTips($ct_machine_name);
+    $field_tips = $this->createTips($field_names);
     $this->createTour($ct_name, $tour_id, $field_tips);
     $form_state->setRedirect('entity.tour.edit_form', ['tour' => $tour_id]);
 
@@ -129,30 +159,37 @@ class ToursForm extends ConfigFormBase {
    * @return array
    *   Returns tip array.
    */
-  public function createTips($ct_machine_name) {
+  public function createTips($field_names) {
     $field_tips = [];
 
-    $fields = \Drupal::service('entity.manager')->getFieldDefinitions('node', $ct_machine_name);
-
-    foreach ($fields as $field) {
-      // Try to filter out base fields.
-      if (!method_exists($field, 'isBaseField') && !method_exists($field, 'getBaseFieldDefinition')) {
-
-        $field_name = $field->label();
-        $field_machine_name = $field->getName();
-        $field_tip_id = $field_machine_name . '_tip';
-
-        $field_tips[$field_tip_id] = [
-          'id' => $field_tip_id,
-          'plugin' => 'text',
-          'label' => $field_name . ' tip',
-          'body' => '',
-          'weight' => '100'
-        ];
-      }
+    foreach ($field_names as $field) {
+      $field_tips[$field['tip_id']] = [
+        'id' => $field['tip_id'],
+        'plugin' => 'text',
+        'label' => $field['label'],
+        'body' => '',
+        'weight' => '100'
+      ];
     }
 
     return $field_tips;
+  }
+
+  /**
+   * @param $ct_machine_name
+   *
+   * @return array
+   */
+  function getConfigFieldNames($ct_machine_name){
+    $fields = [];
+    $node_fields = \Drupal::service('entity.manager')->getFieldDefinitions('node', $ct_machine_name);
+    foreach ($node_fields as $field) {
+      // Filter out base fields like node nid.
+      if (method_exists($field, 'getEntityTypeId') && $field->getEntityTypeId() == 'field_config') {
+        $fields[$field->getName()] = $field->getLabel();
+      }
+    }
+    return $fields;
   }
 
 }
