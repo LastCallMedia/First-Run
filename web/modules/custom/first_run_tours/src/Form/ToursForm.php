@@ -101,7 +101,7 @@ class ToursForm extends ConfigFormBase {
     $tips = [];
     if (isset($tour_tips)) {
       foreach ($tour_tips as $tip) {
-        $tips[] = str_replace([ToursForm::TOUR_ID_PREFIX, '-'], ['','_'], $tip->id());
+        $tips[] = str_replace([ToursForm::TOUR_ID_PREFIX, '-'], ['', '_'], $tip->id());
       }
     }
 
@@ -117,7 +117,7 @@ class ToursForm extends ConfigFormBase {
       '#options' => $this->getConfigFieldNames($ct_machine_name),
       '#empty_option' => $this->t('- Select -'),
       '#multiple' => TRUE,
-      '#default_value' => $tips
+      '#default_value' => $tips,
     ];
 
     return $form;
@@ -132,8 +132,6 @@ class ToursForm extends ConfigFormBase {
 
   /**
    * {@inheritdoc}
-   *
-   * @todo: Use dependency injection instead of NodeType::load.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $ct_machine_name = $form_state->getBuildInfo()['args'][0]->get('type');
@@ -173,8 +171,6 @@ class ToursForm extends ConfigFormBase {
     }
 
     $form_state->setRedirect('entity.tour.edit_form', ['tour' => $tour_id]);
-
-    return;
   }
 
   /**
@@ -207,13 +203,13 @@ class ToursForm extends ConfigFormBase {
   /**
    * Returns an array of tips based on CT fields.
    *
-   * @param string $ct_machine_name
-   *   Parameter is CT type, e.g., 'article'.
+   * @param array $field_names
+   *   Parameter is array of field information.
    *
    * @return array
    *   Returns tip array.
    */
-  public function createTips($field_names) {
+  public function createTips(array $field_names) {
     $field_tips = [];
 
     foreach ($field_names as $field) {
@@ -225,7 +221,7 @@ class ToursForm extends ConfigFormBase {
         'weight' => '100',
         'location' => 'top',
         'attributes' => [
-          'data-id' => 'edit-' . $field['data_id'] . '-wrapper', //edit-body-wrapper
+          'data-id' => 'edit-' . $field['data_id'] . '-wrapper',
         ],
       ];
     }
@@ -234,11 +230,15 @@ class ToursForm extends ConfigFormBase {
   }
 
   /**
-   * @param $ct_machine_name
+   * Get non-base fields from CT.
+   *
+   * @param string $ct_machine_name
+   *   String of CT machine name.
    *
    * @return array
+   *   Returns an array of non-base field names.
    */
-  function getConfigFieldNames($ct_machine_name){
+  public function getConfigFieldNames($ct_machine_name) {
     $fields = [];
     $node_fields = $this->entityManager->getFieldDefinitions('node', $ct_machine_name);
     foreach ($node_fields as $field) {
