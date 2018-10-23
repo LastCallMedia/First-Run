@@ -6,6 +6,10 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\NodeType;
 use Drupal\tour\Entity\Tour;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityManager;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 
 /**
  * Class ToursForm.
@@ -38,6 +42,49 @@ class ToursForm extends ConfigFormBase {
    */
   public function returnTourIdPrefix() {
     return self::TOUR_ID_PREFIX;
+  }
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * The entity manager.
+   *
+   * @var \Drupal\Core\Entity\EntityManagerInterface
+   */
+  protected $entityManager;
+
+  /**
+   * The entity field manager.
+   *
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
+   */
+  protected $entityFieldManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct($config_factory, EntityManager $entity_manager, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $entity_field_manager) {
+    parent::__construct($config_factory);
+    $this->entityManager = $entity_manager;
+    $this->entityTypeManager = $entity_type_manager;
+    $this->entityFieldManager = $entity_field_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('config.factory'),
+      $container->get('entity.manager'),
+      $container->get('entity_type.manager'),
+      $container->get('entity_field.manager')
+    );
   }
 
   /**
@@ -86,13 +133,13 @@ class ToursForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    *
-   * @todo: Don't use [0] for $ct_machine_name, find method to get type.
    * @todo: Use dependency injection instead of NodeType::load.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $ct_machine_name = $form_state->getBuildInfo()['args'][0]->get('type');
     $ct_name = $form_state->getBuildInfo()['args'][0]->get('name');
     $tour_id = $this->returnTourIdPrefix() . $ct_machine_name;
+
     /* @var $node_type \Drupal\node\Entity\NodeType */
     $node_type = NodeType::load($ct_machine_name);
     $tour_enabled_value = $form_state->getValue('tour_enabled');
@@ -103,22 +150,28 @@ class ToursForm extends ConfigFormBase {
       return;
     }
 
-    // Create an array of fields with label and hyphenated machine name in order to create tour tips.
-    $field_names = [];
-    $fields = \Drupal::service('entity_field.manager')->getFieldDefinitions('node', $ct_machine_name);
-    $selected_values = $form_state->getValues()['field_select'];
-    foreach ($selected_values as $value) {
-      $label = $fields[$value] ? $fields[$value]->getLabel() : $value;
-      $field_names[] = [
-        'label' => $label,
-        'data_id' => str_replace('_', '-', $value),
-        'tip_id' => ToursForm::TOUR_ID_PREFIX . str_replace('_', '-', $value),
-      ];
+    $tour = $this->entityTypeManager->getStorage('tour')->getQuery()->condition('id', $tour_id)->execute();
+    // Get fields and create tour if one doesn't exist yet for this CT.
+    if (empty($tour)) {
+
+      // Create an array of fields with label and hyphenated machine name in order to create tour tips.
+      $field_names = [];
+      $fields = $this->entityFieldManager->getFieldDefinitions('node', $ct_machine_name);
+      $selected_values = $form_state->getValues()['field_select'];
+      foreach ($selected_values as $value) {
+        $label = $fields[$value] ? $fields[$value]->getLabel() : $value;
+        $field_names[] = [
+          'label' => $label,
+          'data_id' => str_replace('_', '-', $value),
+          'tip_id' => ToursForm::TOUR_ID_PREFIX . str_replace('_', '-', $value),
+        ];
+      }
+
+      // Add tips and tour based on this content type.
+      $field_tips = $this->createTips($field_names);
+      $this->createTour($ct_name, $tour_id, $field_tips);
     }
 
-    // Add tips and tour based on this content type.
-    $field_tips = $this->createTips($field_names);
-    $this->createTour($ct_name, $tour_id, $field_tips);
     $form_state->setRedirect('entity.tour.edit_form', ['tour' => $tour_id]);
 
     return;
@@ -137,9 +190,9 @@ class ToursForm extends ConfigFormBase {
    * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function createTour($ct_name, $tour_id, array $field_tips) {
-    $values = \Drupal::entityQuery('tour')->condition('id', $tour_id)->execute();
+    $existing_tour = $this->entityTypeManager->getStorage('tour')->getQuery()->condition('id', $tour_id)->execute();
 
-    if (empty($values)) {
+    if (empty($existing_tour)) {
       $tour = Tour::create([
         'id' => $tour_id,
         'label' => 'Node Edit ' . $ct_name,
@@ -187,7 +240,7 @@ class ToursForm extends ConfigFormBase {
    */
   function getConfigFieldNames($ct_machine_name){
     $fields = [];
-    $node_fields = \Drupal::service('entity.manager')->getFieldDefinitions('node', $ct_machine_name);
+    $node_fields = $this->entityManager->getFieldDefinitions('node', $ct_machine_name);
     foreach ($node_fields as $field) {
       // Filter out base fields like node nid.
       if (method_exists($field, 'getEntityTypeId') && $field->getEntityTypeId() == 'field_config') {
