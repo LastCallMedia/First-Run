@@ -95,9 +95,12 @@ class ToursForm extends ConfigFormBase {
     $form = parent::buildForm($form, $form_state);
     $ct_machine_name = $form_state->getBuildInfo()['args'][0]->get('type');
 
-    // Load the Tour tips, convert hyphenated tour ids to field underscore id.
+    // Load the Tour tips.
     $tour_id = $this->returnTourIdPrefix() . $ct_machine_name;
-    $tour_tips = Tour::load($tour_id) ? Tour::load($tour_id)->getTips() : NULL;
+    $tour = $this->entityManager->getStorage('tour')->load($tour_id);
+    $tour_tips = $tour ? $tour->getTips() : NULL;
+
+    // Convert hyphenated tip ids to field id with underscore.
     $tips = [];
     if (isset($tour_tips)) {
       foreach ($tour_tips as $tip) {
@@ -189,7 +192,7 @@ class ToursForm extends ConfigFormBase {
     $existing_tour = $this->entityTypeManager->getStorage('tour')->getQuery()->condition('id', $tour_id)->execute();
 
     if (empty($existing_tour)) {
-      $tour = Tour::create([
+      $tour = $this->entityManager->getStorage('tour')->create([
         'id' => $tour_id,
         'label' => 'Node Edit ' . $ct_name,
         'module' => 'first_run_tours',

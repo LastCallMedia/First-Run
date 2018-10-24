@@ -4,3 +4,4 @@ description: Custom Tour Module
 core: 8.x
 package: Custom
   - tour
+  - tour_ui
