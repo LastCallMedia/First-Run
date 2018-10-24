@@ -151,26 +151,53 @@ class ToursForm extends ConfigFormBase {
       return;
     }
 
-    $tour = $this->entityTypeManager->getStorage('tour')->getQuery()->condition('id', $tour_id)->execute();
-    // Get fields and create tour if one doesn't exist yet for this CT.
-    if (empty($tour)) {
+    // Create an array of fields with label and hyphenated machine name in order to create tour tips.
+    $selected_field_info = [];
+    $fields = $this->entityFieldManager->getFieldDefinitions('node', $ct_machine_name);
+    $selected_values = $form_state->getValues()['field_select'];
+    foreach ($selected_values as $value) {
+      $label = $fields[$value] ? $fields[$value]->getLabel() : $value;
+      $selected_field_info[] = [
+        'label' => $label,
+        'data_id' => str_replace('_', '-', $value),
+        'tip_id' => ToursForm::TOUR_ID_PREFIX . str_replace('_', '-', $value),
+      ];
+    }
 
-      // Create an array of fields with label and hyphenated machine name in order to create tour tips.
-      $field_names = [];
-      $fields = $this->entityFieldManager->getFieldDefinitions('node', $ct_machine_name);
-      $selected_values = $form_state->getValues()['field_select'];
-      foreach ($selected_values as $value) {
-        $label = $fields[$value] ? $fields[$value]->getLabel() : $value;
-        $field_names[] = [
-          'label' => $label,
-          'data_id' => str_replace('_', '-', $value),
-          'tip_id' => ToursForm::TOUR_ID_PREFIX . str_replace('_', '-', $value),
-        ];
+    $tour_id_results = $this->entityTypeManager->getStorage('tour')->getQuery()->condition('id', $tour_id)->execute();
+
+    // If a tour for this CT doesn't exist, create one, else add newly selected tips.
+    if (empty($tour_id_results)) {
+      // Get fields and create tour if one doesn't exist yet for this CT.
+      $field_tips = $this->createTips($selected_field_info);
+      $this->createTour($ct_name, $tour_id, $field_tips);
+    }
+    else {
+      $tour = $this->entityManager->getStorage('tour')->load($tour_id);
+      $new_tips = [];
+
+      // For each selected field, if it isn't currently a tip, add to array.
+      foreach ($selected_field_info as $field) {
+        if (!$tour->get('tipsCollection')->has($field['tip_id'])) {
+          $new_tips[$field['tip_id']] = $field;
+        }
       }
 
-      // Add tips and tour based on this content type.
-      $field_tips = $this->createTips($field_names);
-      $this->createTour($ct_name, $tour_id, $field_tips);
+      // Transform selected fields to tip arrays.
+      $new_tips = $this->createTips($new_tips);
+
+      // Save existing tips to array.
+      $existing_tip_list = $tour->getTips();
+      $existing_tips = [];
+      if (!empty($existing_tip_list)) {
+        foreach ($existing_tip_list as $tip) {
+          $existing_tips[$tip->id()] = $tip->getConfiguration();
+        }
+      }
+
+      // Merge existing and new tips, set, and save.
+      $tour->set('tips', array_merge($new_tips, $existing_tips));
+      $tour->save();
     }
 
     $form_state->setRedirect('entity.tour.edit_form', ['tour' => $tour_id]);
