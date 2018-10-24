@@ -160,6 +160,7 @@ class ToursForm extends ConfigFormBase {
         'label' => $label,
         'data_id' => str_replace('_', '-', $value),
         'tip_id' => ToursForm::TOUR_ID_PREFIX . str_replace('_', '-', $value),
+        'description' => $fields[$value]->getDescription(),
       ];
     }
 
@@ -246,7 +247,7 @@ class ToursForm extends ConfigFormBase {
         'id' => $field['tip_id'],
         'plugin' => 'text',
         'label' => $field['label'],
-        'body' => '',
+        'body' => $field['description'],
         'weight' => '100',
         'location' => 'top',
         'attributes' => [
