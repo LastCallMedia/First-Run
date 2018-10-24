@@ -5,7 +5,6 @@ namespace Drupal\first_run_tours\Form;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\NodeType;
-use Drupal\tour\Entity\Tour;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityManager;
