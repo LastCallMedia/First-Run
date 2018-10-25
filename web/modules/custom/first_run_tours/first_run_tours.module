@@ -76,8 +76,8 @@ function first_run_tours_form_tour_form_alter(&$form, FormStateInterface $form_s
  * Implements hook_ENTITY_TYPE_delete() for tour entities.
  */
 function first_run_tours_tour_delete($entity) {
-  if ($entity->getModule() == 'first_run_tours') {
-    $ct_machine_name = str_replace(ToursForm::TOUR_ID_PREFIX, '', $entity->id());
+  if ($entity->getModule() == 'first_run_tours' && $entity->getEntityTypeId() == 'tour') {
+    $ct_machine_name = str_replace([ToursForm::TOUR_ID_PREFIX, '-'], ['', '_'], $entity->id());
     $node_type = NodeType::load($ct_machine_name);
 
     if ($node_type !== NULL && $node_type->getThirdPartySetting('first_run_tours', $ct_machine_name)) {
