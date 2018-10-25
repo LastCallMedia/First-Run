@@ -48,8 +48,9 @@ function first_run_tours_page_bottom(array &$page_bottom) {
   }
 
   if (isset($ct_machine_name)) {
+    $tour_id = ToursForm::TOUR_ID_PREFIX . str_replace('_', '-', $ct_machine_name);
     $results = \Drupal::entityQuery('tour')
-      ->condition('id', ToursForm::TOUR_ID_PREFIX . $ct_machine_name)
+      ->condition('id', $tour_id)
       ->execute();
 
     if (!empty($results) && $tours = Tour::loadMultiple(array_keys($results))) {

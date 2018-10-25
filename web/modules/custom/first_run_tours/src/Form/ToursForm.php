@@ -95,7 +95,7 @@ class ToursForm extends ConfigFormBase {
     $ct_machine_name = $form_state->getBuildInfo()['args'][0]->get('type');
 
     // Load the Tour tips.
-    $tour_id = $this->returnTourIdPrefix() . $ct_machine_name;
+    $tour_id = $this->returnTourIdPrefix() . $this->hyphenate($ct_machine_name);
     $tour = $this->entityManager->getStorage('tour')->load($tour_id);
     $tour_tips = $tour ? $tour->getTips() : NULL;
 
@@ -138,7 +138,7 @@ class ToursForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $ct_machine_name = $form_state->getBuildInfo()['args'][0]->get('type');
     $ct_name = $form_state->getBuildInfo()['args'][0]->get('name');
-    $tour_id = $this->returnTourIdPrefix() . $ct_machine_name;
+    $tour_id = $this->returnTourIdPrefix() . $this->hyphenate($ct_machine_name);
 
     /* @var $node_type \Drupal\node\Entity\NodeType */
     $node_type = NodeType::load($ct_machine_name);
@@ -158,8 +158,8 @@ class ToursForm extends ConfigFormBase {
       $label = $fields[$value] ? $fields[$value]->getLabel() : $value;
       $selected_field_info[] = [
         'label' => $label,
-        'data_id' => str_replace('_', '-', $value),
-        'tip_id' => ToursForm::TOUR_ID_PREFIX . str_replace('_', '-', $value),
+        'data_id' => $this->hyphenate($value),
+        'tip_id' => ToursForm::TOUR_ID_PREFIX . $this->hyphenate($value),
         'description' => $fields[$value]->getDescription(),
       ];
     }
@@ -170,7 +170,8 @@ class ToursForm extends ConfigFormBase {
     if (empty($tour_id_results)) {
       // Get fields and create tour if one doesn't exist yet for this CT.
       $field_tips = $this->createTips($selected_field_info);
-      $this->createTour($ct_name, $tour_id, $field_tips);
+      $welcome_tip = $this->createWelcomeTip($ct_name, $ct_machine_name);
+      $this->createTour($ct_name, $tour_id, array_merge($field_tips, $welcome_tip));
     }
     else {
       $tour = $this->entityManager->getStorage('tour')->load($tour_id);
@@ -278,6 +279,45 @@ class ToursForm extends ConfigFormBase {
       }
     }
     return $fields;
+  }
+
+  /**
+   * Creates a welcome tip for a specific CT.
+   *
+   * @param $ct_name
+   *   String of CT name.
+   *
+   * @param $ct_machine_name
+   *   String of CT machine name.
+   *
+   * @return array
+   *   Returns a welcome tip.
+   */
+  public function createWelcomeTip($ct_name, $ct_machine_name) {
+    $welcome_tip_id = $this->hyphenate($ct_machine_name) . '-welcome';
+    $tip = [
+      $welcome_tip_id =>  [
+        'id' => $welcome_tip_id,
+        'plugin' => 'text',
+        'label' => 'Welcome',
+        'body' => 'Welcome to the ' . $ct_name . ' tour. Here are some tips on the fields you will be using.',
+        'weight' => '-100',
+      ]
+    ];
+    return $tip;
+  }
+
+  /**
+   * Converts underscores to hyphens.
+   * 
+   * @param $string
+   *   Takes an underscore string.
+   *
+   * @return $string.
+   *   Returns hyphenated string.
+   */
+  public function hyphenate($string) {
+    return str_replace('_', '-', $string);
   }
 
 }
