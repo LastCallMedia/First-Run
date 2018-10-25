@@ -201,7 +201,7 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
         if ($image) {
           $variables['types'][$type->id()]['image'] = [
             '#theme' => 'image_style',
-            '#style_name' => 'thumbnail',
+            '#style_name' => 'large_thumbnail',
             '#uri' => $image->getFileUri(),
             '#alt' => 'Thumbnail image of the ' . $type_id . ' content type',
           ];

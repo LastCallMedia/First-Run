@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies: {  }
+name: large_thumbnail
+label: 'Large Thumbnail'
+effects:
+  7633807d-49f2-4060-ac00-ce684a387d45:
+    uuid: 7633807d-49f2-4060-ac00-ce684a387d45
+    id: image_scale
+    weight: 1
+    data:
+      width: 171
+      height: 190
+      upscale: false
+  525bc5ce-6547-4f2a-bc9c-9b1cec245df6:
+    uuid: 525bc5ce-6547-4f2a-bc9c-9b1cec245df6
+    id: image_resize
+    weight: 2
+    data:
+      width: 171
+      height: 190
+third_party_settings: { }
