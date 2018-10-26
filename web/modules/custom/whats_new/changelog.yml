@@ -1,0 +1,20 @@
+# sjhdfajshdjah
+# sakjdkasjdkjdkjasd
+
+
+admin_toolbar:
+  name: Designow
+  version: 8.1.23
+  changeslist:
+    20181005:
+      date: October 5, 2018
+      authors: by sunlix, romainj, adriancid, samerali
+      admin_description: Add a menu link for the media module.
+      profile_descriptin: blah
+      permission: end_user
+      jira_ticket: akjsdkasjd
+    20181023:
+      date: October 23, 2018
+      authors: by romainj
+      description: Now you can add images.
+      help_page: www.google.com
