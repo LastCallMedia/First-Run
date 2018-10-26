@@ -1,0 +1,8 @@
+
+whats_new.whats_new_controller_hello:
+  path: '/admin/config/hello'
+  defaults:
+    _controller: '\Drupal\whats_new\Controller\WhatsNewController::content'
+    _title: 'Hello Title'
+  requirements:
+    _permission: 'access content'
