@@ -1,1 +1,27 @@
-<!-- Add you custom twig html here -->
+{% for date, item in data %}
+
+  <h2>{{ date|date('Y-m-d') }}</h2>
+
+  {% for value in item %}
+
+    <h3>{{ value.name }}</h3>
+
+    <ul>
+      {% if value.version %}<li>{{ 'Version: ' }}{{ value.version }}</li>{% endif %}
+      {% if value.description %}<li>{{ 'Description: ' }}{{ value.description }}</li>{% endif %}
+      {% if value.ticket %}<li>{{ 'Ticket: ' }}{{ value.ticket }}</li>{% endif %}
+      {% if value.link %}<li>{{ 'Link: ' }}{{ value.link }}</li>{% endif %}
+      {% if value.authors %}
+        <li>
+          {{ 'Authors: ' }}
+          {% for author in value.authors %}
+            {{ author }}{% if not loop.last %},{% endif %}
+          {% endfor %}
+        </li>
+      {% endif %}
+    </ul>
+
+    <br>
+  {% endfor %}
+
+{% endfor %}
