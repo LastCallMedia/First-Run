@@ -22,8 +22,12 @@ class WhatsNewController extends ControllerBase {
     $data = Yaml::parse($file_contents);
     krsort($data);
 
+    if (!$data) {
+      return [];
+    }
+
     return [
-      '#theme' => 'whats_new',
+      '#theme' => 'whats_new_page',
       '#data' => $data,
     ];
   }

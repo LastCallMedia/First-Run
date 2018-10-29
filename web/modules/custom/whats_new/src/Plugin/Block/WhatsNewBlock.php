@@ -19,10 +19,13 @@ class WhatsNewBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    $build = [];
-    $build['whats_new_block']['#markup'] = 'Implement WhatsNewBlock.';
+    $whats_new = new WhatsNewController();
+    $data = $whats_new->content();
 
-    return $build;
+    return [
+      '#theme' => 'whats_new_block',
+      '#data' => $data,
+    ];
   }
 
 }

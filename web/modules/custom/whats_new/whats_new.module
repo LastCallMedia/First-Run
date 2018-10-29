@@ -28,7 +28,12 @@ function whats_new_help($route_name, RouteMatchInterface $route_match) {
  */
 function whats_new_theme() {
   return [
-    'whats_new' => [
+    'whats_new_page' => [
+      'variables' => [
+        'data' => NULL,
+      ],
+    ],
+    'whats_new_block' => [
       'variables' => [
         'data' => NULL,
       ],
