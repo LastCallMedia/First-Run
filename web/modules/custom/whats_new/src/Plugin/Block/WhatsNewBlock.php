@@ -20,7 +20,7 @@ class WhatsNewBlock extends BlockBase {
    */
   public function build() {
     $whats_new = new WhatsNewController();
-    $data = $whats_new->content();
+    $data = $whats_new->getChangelogData(5);
 
     return [
       '#theme' => 'whats_new_block',

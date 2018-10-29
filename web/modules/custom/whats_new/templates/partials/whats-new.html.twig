@@ -1,0 +1,27 @@
+{% for date, item in data %}
+
+  <{{ heading_level_date|default('h2') }}>{{ date|date('Y-m-d') }}</{{ heading_level_date|default('h2') }}>
+
+  {% for value in item %}
+
+    <{{ heading_level_name|default('h3') }}>{{ value.name }}</{{ heading_level_name|default('h3') }}>
+
+    <ul>
+      {% if value.version %}<li>{{ 'Version: ' }}{{ value.version }}</li>{% endif %}
+      {% if value.description %}<li>{{ 'Description: ' }}{{ value.description }}</li>{% endif %}
+      {% if value.ticket %}<li>{{ 'Ticket: ' }}{{ value.ticket }}</li>{% endif %}
+      {% if value.link %}<li>{{ 'Link: ' }}{{ value.link }}</li>{% endif %}
+      {% if value.authors %}
+        <li>
+          {{ 'Authors: ' }}
+          {% for author in value.authors %}
+            {{ author }}{% if not loop.last %},{% endif %}
+          {% endfor %}
+        </li>
+      {% endif %}
+    </ul>
+
+    <br>
+  {% endfor %}
+
+{% endfor %}

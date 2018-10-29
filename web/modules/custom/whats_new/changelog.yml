@@ -75,3 +75,13 @@
     description: Fixes a bug with the metatag module.
     link: https://www.drupal.org/project/metatag
     ticket: www.jira.com/6789
+
+2018-08-25:
+- name: Metatag Update
+  version: 8.4.2
+  authors:
+  - adriancid
+  - samerali
+  description: Fixes a bug with the metatag module.
+  link: https://www.drupal.org/project/metatag
+  ticket: www.jira.com/6789
