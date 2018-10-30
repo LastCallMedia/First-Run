@@ -1,0 +1,60 @@
+2018-09-05:
+  -
+    name: Admin Toolbar Update
+    version: 8.1.12
+    authors:
+    - sunlix
+    - romainj
+    - adriancid
+    - samerali
+    description: Add a menu link for the media module.
+    link: http://www.example.com
+    ticket: http://www.jira.com/12345
+  -
+    name: New image widget added to the WYSIWYG
+    authors:
+      - dstaff
+    description: >
+      This new widget utilizes the Bean contrib module to provide a useful widget that
+      allows images to be inserted side-by-side.
+
+2018-10-23:
+  -
+    name: Metatag Update
+    version: 8.4.2
+    authors:
+    - adriancid
+    - samerali
+    description: Fixes a bug with the metatag module.
+    link: https://www.drupal.org/project/metatag
+    ticket: http://www.jira.com/6789
+
+2018-08-25:
+  -
+    name: New events view
+    version:
+    authors:
+      - fakeauthor
+    description: Added a new view on the /testing page that displays a list of event nodes.
+    link:
+    ticket: http://www.jira.com/2345
+
+2018-10-30:
+  -
+    name: Drupal Core update
+    version: 8.6.1
+    description: Drupal core now has this new thing.
+    link: https://www.drupal.org/project/core
+    ticket: http://www.jira.com/6789
+
+2018-07-15:
+  -
+    name: New block added
+    description: A new block has been added to the homepage
+    ticket: http://www.jira.com/5555
+
+2018-10-12:
+  -
+    name: A new paragraph has been added
+    description: Visit the Article CT and you will see a new paragraph
+    ticket: http://www.jira.com/8888

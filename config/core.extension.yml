@@ -20,6 +20,7 @@ module:
   filter: 0
   fr_add_content: 0
   fr_core: 0
+  first_run_tours: 0
   help: 0
   history: 0
   image: 0
@@ -38,9 +39,11 @@ module:
   text: 0
   toolbar: 0
   tour: 0
+  tour_ui: 0
   update: 0
   user: 0
   views_ui: 0
+  whats_new: 0
   menu_link_content: 1
   views: 10
   standard: 1000

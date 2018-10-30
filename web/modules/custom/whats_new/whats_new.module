@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * @file
+ * Contains whats_new.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function whats_new_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the whats_new module.
+    case 'help.page.whats_new':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Contains a changelog.yml file to track site changes, provides a block and page to display this.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function whats_new_theme() {
+  return [
+    'whats_new_page' => [
+      'variables' => [
+        'data' => NULL,
+      ],
+    ],
+    'whats_new_block' => [
+      'variables' => [
+        'data' => NULL,
+      ],
+    ],
+  ];
+}
