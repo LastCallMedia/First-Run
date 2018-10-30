@@ -24,10 +24,11 @@ class WhatsNewController extends ControllerBase {
   }
 
   /**
-   * Retrieve data from whats_new.yml file. Please create this file and place it
-   * at the DRUPAL_ROOT.
+   * Retrieve data from whats_new.yml file.
    *
-   * @param null $quantity
+   * Please create this file and place it at the DRUPAL_ROOT.
+   *
+   * @param int $quantity
    *   Integer tov specify how many results are returned.
    *
    * @return array|mixed
@@ -39,9 +40,9 @@ class WhatsNewController extends ControllerBase {
 
     if ($file_contents == FALSE) {
       $data = [
-        date('Y-m-d') => [[
-          'name' => 'Please create a whats_new.yml file at the Drupal root.'
-        ]]
+        date('Y-m-d') => [
+          ['name' => 'Please create a whats_new.yml file at the Drupal root.'],
+        ],
       ];
       return $data;
     }
@@ -52,7 +53,7 @@ class WhatsNewController extends ControllerBase {
       return [];
     }
 
-    // Sort by date
+    // Sort by date.
     krsort($data);
 
     // Limit results.

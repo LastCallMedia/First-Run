@@ -284,10 +284,9 @@ class ToursForm extends ConfigFormBase {
   /**
    * Creates a welcome tip for a specific CT.
    *
-   * @param $ct_name
+   * @param string $ct_name
    *   String of CT name.
-   *
-   * @param $ct_machine_name
+   * @param string $ct_machine_name
    *   String of CT machine name.
    *
    * @return array
@@ -296,24 +295,24 @@ class ToursForm extends ConfigFormBase {
   public function createWelcomeTip($ct_name, $ct_machine_name) {
     $welcome_tip_id = $this->hyphenate($ct_machine_name) . '-welcome';
     $tip = [
-      $welcome_tip_id =>  [
+      $welcome_tip_id => [
         'id' => $welcome_tip_id,
         'plugin' => 'text',
         'label' => 'Welcome',
         'body' => 'Welcome to the ' . $ct_name . ' tour. Here are some tips on the fields you will be using.',
         'weight' => '-100',
-      ]
+      ],
     ];
     return $tip;
   }
 
   /**
    * Converts underscores to hyphens.
-   * 
-   * @param $string
+   *
+   * @param string $string
    *   Takes an underscore string.
    *
-   * @return $string.
+   * @return string
    *   Returns hyphenated string.
    */
   public function hyphenate($string) {
