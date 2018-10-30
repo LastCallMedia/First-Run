@@ -2,7 +2,7 @@ langcode: en
 status: true
 dependencies: {  }
 name: large_thumbnail
-label: 'Large Thumbnail'
+label: 'Large Thumbnail (190x171)'
 effects:
   7633807d-49f2-4060-ac00-ce684a387d45:
     uuid: 7633807d-49f2-4060-ac00-ce684a387d45

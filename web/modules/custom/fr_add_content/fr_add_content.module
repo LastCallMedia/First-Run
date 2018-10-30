@@ -7,6 +7,7 @@
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StreamWrapper\PublicStream;
 use Drupal\node\Entity\NodeType;
 use Drupal\file\Entity\File;
 use Drupal\Component\Utility\Xss;
@@ -206,10 +207,8 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
             '#alt' => 'Thumbnail image of the ' . $type_id . ' content type',
           ];
         }
-
       }
     }
-
   }
 
 }
