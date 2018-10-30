@@ -8,8 +8,8 @@
     - adriancid
     - samerali
     description: Add a menu link for the media module.
-    link: www.example.com
-    ticket: www.jira.com/12345
+    link: http://www.example.com
+    ticket: http://www.jira.com/12345
   -
     name: New image widget added to the WYSIWYG
     authors:
@@ -27,7 +27,7 @@
     - samerali
     description: Fixes a bug with the metatag module.
     link: https://www.drupal.org/project/metatag
-    ticket: www.jira.com/6789
+    ticket: http://www.jira.com/6789
 
 2018-08-25:
   -
@@ -37,7 +37,7 @@
       - fakeauthor
     description: Added a new view on the /testing page that displays a list of event nodes.
     link:
-    ticket: www.jira.com/2345
+    ticket: http://www.jira.com/2345
 
 2018-10-30:
   -
@@ -45,16 +45,16 @@
     version: 8.6.1
     description: Drupal core now has this new thing.
     link: https://www.drupal.org/project/core
-    ticket: www.jira.com/6789
+    ticket: http://www.jira.com/6789
 
 2018-07-15:
   -
     name: New block added
     description: A new block has been added to the homepage
-    ticket: www.jira.com/5555
+    ticket: http://www.jira.com/5555
 
 2018-10-12:
   -
     name: A new paragraph has been added
     description: Visit the Article CT and you will see a new paragraph
-    ticket: www.jira.com/8888
+    ticket: http://www.jira.com/8888

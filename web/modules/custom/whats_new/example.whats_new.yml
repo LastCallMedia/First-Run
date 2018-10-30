@@ -24,8 +24,8 @@
 #      - adriancid
 #      - samerali
 #    description: Add a menu link for the media module.
-#    link: www.example.com
-#    ticket: www.jira.com/12345
+#    link: http://www.example.com
+#    ticket: http://www.jira.com/12345
 #  -
 #    name: New image widget added to the WYSIWYG
 #    authors:
@@ -43,7 +43,7 @@
 #      - samerali
 #    description: Fixes a bug with the metatag module.
 #    link: https://www.drupal.org/project/metatag
-#    ticket: www.jira.com/6789
+#    ticket: http://www.jira.com/6789
 #
 #2018-08-25:
 #  -
@@ -53,4 +53,4 @@
 #      - fakeauthor
 #    description: Added a new view on the /testing page that displays a list of event nodes.
 #    link:
-#    ticket: www.jira.com/2345
+#    ticket: http://www.jira.com/2345
