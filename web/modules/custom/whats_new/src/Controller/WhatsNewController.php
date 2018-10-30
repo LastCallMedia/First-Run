@@ -24,7 +24,8 @@ class WhatsNewController extends ControllerBase {
   }
 
   /**
-   * Retrieve data from changelog.yml file.
+   * Retrieve data from whats_new.yml file. Please create this file and place it
+   * at the DRUPAL_ROOT.
    *
    * @param null $quantity
    *   Integer tov specify how many results are returned.
@@ -33,8 +34,18 @@ class WhatsNewController extends ControllerBase {
    *   Return array of data, sorted and limited.
    */
   public function getChangelogData($quantity = NULL) {
-    $file_path = __DIR__ . '/../../changelog.yml';
+    $file_path = DRUPAL_ROOT . '/whats_new.yml';
     $file_contents = file_get_contents($file_path);
+
+    if ($file_contents == FALSE) {
+      $data = [
+        date('Y-m-d') => [[
+          'name' => 'Please create a whats_new.yml file at the Drupal root.'
+        ]]
+      ];
+      return $data;
+    }
+
     $data = Yaml::parse($file_contents);
 
     if (!$data) {

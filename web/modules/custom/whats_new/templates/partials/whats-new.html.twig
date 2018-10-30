@@ -9,8 +9,8 @@
     <ul>
       {% if value.version %}<li>{{ 'Version: ' }}{{ value.version }}</li>{% endif %}
       {% if value.description %}<li>{{ 'Description: ' }}{{ value.description }}</li>{% endif %}
-      {% if value.ticket %}<li>{{ 'Ticket: ' }}{{ value.ticket }}</li>{% endif %}
-      {% if value.link %}<li>{{ 'Link: ' }}{{ value.link }}</li>{% endif %}
+      {% if value.ticket %}<li>{{ 'Ticket: ' }}<a href="{{ value.ticket }}">{{ value.ticket }}</a></li>{% endif %}
+      {% if value.link %}<li>{{ 'Link: ' }}<a href="{{ value.link }}">{{ value.link }}</a></li>{% endif %}
       {% if value.authors %}
         <li>
           {{ 'Authors: ' }}
