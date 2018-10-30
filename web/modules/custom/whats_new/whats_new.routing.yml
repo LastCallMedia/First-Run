@@ -5,4 +5,4 @@ whats_new.whats_new_controller:
     _controller: '\Drupal\whats_new\Controller\WhatsNewController::content'
     _title: What's New
   requirements:
-    _permission: 'access content'
+    _permission: 'administer site configuration'
