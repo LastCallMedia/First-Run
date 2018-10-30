@@ -6,6 +6,9 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Url;
 
 /**
  * Implements hook_help().
@@ -32,4 +35,50 @@ function welcome_theme() {
       'render element' => 'children',
     ],
   ];
+}
+
+/**
+ * Implements hook_user_login().
+ *
+ * Redirect users to the welcome page on successful login.
+ */
+function welcome_user_login(AccountInterface $account) {
+  $url = Url::fromRoute('welcome.welcome_home')->toString();
+
+  // If there are no password reset parameters in the URL, then bypass the user edit
+  // page and go straight to my-work.
+  if (\Drupal::service('current_route_match')->getRouteName() !== 'user.reset.login') {
+    return \Drupal::requestStack()->getCurrentRequest()->query->set('destination', $url);
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ *
+ * If a user logs in with a password reset, send them to the user edit form to
+ * reset their password first, then redirect to my-work.
+ */
+function welcome_form_user_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['actions']['submit']['#submit'][] = '_welcome_user_redirect';
+}
+
+/**
+ * Custom submit handler to redirect users to welcome page.
+ */
+function _welcome_user_redirect(&$form, FormStateInterface $form_state) {
+  // Redirect from user form on save only when user first logs in.
+  if (\Drupal::request()->query->has('pass-reset-token')) {
+    $form_state->setRedirect('welcome.welcome_home');
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function welcome_preprocess_html(&$variables) {
+  $current_route = \Drupal::routeMatch()->getRouteName();
+
+  if ($current_route == 'welcome.welcome_home') {
+    $variables['attributes']['class'][] = 'welcome-home';
+  }
 }

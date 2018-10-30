@@ -1,4 +1,4 @@
-welcome.welcome_controller:
+welcome.welcome_home:
   path: '/welcome'
   defaults:
     _controller: '\Drupal\welcome\Controller\WelcomeController::content'
