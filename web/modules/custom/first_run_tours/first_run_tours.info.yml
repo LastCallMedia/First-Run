@@ -4,5 +4,5 @@ description: Custom Tour Module
 core: 8.x
 package: Custom
 dependencies:
-  - tour
-  - tour_ui
+  - drupal:tour
+  - tour_ui:tour_ui

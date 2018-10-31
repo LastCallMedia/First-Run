@@ -128,20 +128,15 @@ class ToursForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    parent::validateForm($form, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $ct_machine_name = $form_state->getBuildInfo()['args'][0]->get('type');
     $ct_name = $form_state->getBuildInfo()['args'][0]->get('name');
     $tour_id = $this->returnTourIdPrefix() . $this->hyphenate($ct_machine_name);
 
     /* @var $node_type \Drupal\node\Entity\NodeType */
+    // phpcs:disable
     $node_type = NodeType::load($ct_machine_name);
+    // phpcs:enable
     $tour_enabled_value = $form_state->getValue('tour_enabled');
     $node_type->setThirdPartySetting('first_run_tours', $ct_machine_name, $tour_enabled_value);
     $node_type->save();
@@ -150,7 +145,8 @@ class ToursForm extends ConfigFormBase {
       return;
     }
 
-    // Create an array of fields with label and hyphenated machine name in order to create tour tips.
+    // Create an array of fields with label and hyphenated machine name in order
+    // to create tour tips.
     $selected_field_info = [];
     $fields = $this->entityFieldManager->getFieldDefinitions('node', $ct_machine_name);
     $selected_values = $form_state->getValues()['field_select'];
@@ -166,7 +162,8 @@ class ToursForm extends ConfigFormBase {
 
     $tour_id_results = $this->entityTypeManager->getStorage('tour')->getQuery()->condition('id', $tour_id)->execute();
 
-    // If a tour for this CT doesn't exist, create one, else add newly selected tips.
+    // If a tour for this CT doesn't exist, create one, else add newly
+    // selected tips.
     if (empty($tour_id_results)) {
       // Get fields and create tour if one doesn't exist yet for this CT.
       $field_tips = $this->createTips($selected_field_info);
