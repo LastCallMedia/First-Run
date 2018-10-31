@@ -15,41 +15,47 @@
 #}
 {% if content %}
   <ul class="admin-list">
-    <li><h2>Under construction.</h2></li>
     {% for type in types %}
       <li class="clearfix admin-list-item">
-        <div class="content-type-teaser-container">
+        <div class="ct-item-container">
           {% if type.image %}
             <div class="col ct-thumbnail">{{ type.image }}</div>
           {% else %}
             <div class="col ct-thumbnail"><img src="/modules/custom/fr_add_content/images/icon_industry_media.svg"></div>
           {% endif %}
+
+          <div class="col details-container">
+            <h3 class="ct-label"><a href="{{ type.url }}">{{ type.label }}</a></h3>
+
+            {% if type.description %}
+              <div class="description">{{ type.description }}</div>
+            {% endif %}
+
+            {% if type.key_components %}
+              <div class="ct-key-components">{{ type.key_components}}</div>
+            {% endif %}
+
+            {% if type.help_link %}
+              <a href="{{ type.help_link }}" class="ct-help">View help article</a>
+            {% endif %}
+          </div>
+
+          <div class="col actions">
+            {% if type.live_example or type.description %}
+              <div class="ct-details-links">
+                {% if type.live_example %}
+                  <a href="{{ type.live_example }}" class="ct-details-link live-example">View live example</a>
+                {% endif %}
+                {% if type.tour %}
+                  {{ type.tour }}
+                {% endif %}
+              </div>
+            {% endif %}
+            <a href="{{ type.url }}" class="button button--add-content button--primary">Add new {{ type.label }}</a>
+
+          </div>
+
         </div>
-
-        <div class="col details-container">
-          <h3 class="label"><a href="{{ type.url }}">{{ type.label }}</a></h3>
-
-          {% if type.live_example %}
-            {#<div class="live-example">#}
-            <a href="{{ type.live_example }}" class="live-example">View live example</a>
-            {#</div>#}
-          {% endif %}
-
-          {% if type.description %}
-            <div class="description">{{ type.description }}</div>
-          {% endif %}
-
-          {% if type.key_components %}
-            <div class="node-type-key-components">{{ type.key_components}}</div>
-          {% endif %}
-
-          {% if type.help_link %}
-            <a href="{{ type.help_link }}" class="node-type-help">View help article</a>
-          {% endif %}
-        </div>
-
-        <div class="col button-container"><a href="{{ type.url }}" class="button button--add-content">Add new {{ type.label }}</a></div>
-
       </li>
 
     {% endfor %}

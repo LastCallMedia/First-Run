@@ -1,0 +1,28 @@
+uuid: 7297703d-c60e-4084-a66e-2e2d96e573ca
+langcode: en
+status: true
+dependencies:
+  module:
+    - first_run_tours
+id: node-add-test-type
+label: 'Node Edit Test type'
+module: first_run_tours
+routes: {  }
+tips:
+  test-type-welcome:
+    id: test-type-welcome
+    plugin: text
+    label: Welcome
+    weight: -100
+    attributes: null
+    body: 'Welcome to the Test type tour. Here are some tips on the fields you will be using.'
+    location: top
+  node-add-body:
+    id: node-add-body
+    plugin: text
+    label: Body
+    weight: 100
+    attributes:
+      data-id: edit-body-wrapper
+    body: null
+    location: top

@@ -18,9 +18,9 @@ module:
   field_ui: 0
   file: 0
   filter: 0
+  first_run_tours: 0
   fr_add_content: 0
   fr_core: 0
-  first_run_tours: 0
   help: 0
   history: 0
   image: 0

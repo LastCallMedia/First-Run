@@ -7,6 +7,7 @@
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Drupal\node\Entity\NodeType;
 use Drupal\file\Entity\File;
 use Drupal\Component\Utility\Xss;
@@ -43,6 +44,25 @@ function fr_add_content_theme($existing, $type, $theme, $path) {
       'base hook' => 'page',
     ],
   ];
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function fr_add_content_page_attachments(array &$page) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name == 'node.add_page') {
+    $page['#attached']['library'][] = 'fr_add_content/fr_add_content.node-add-list';
+  }
+}
+
+/**
+ * Implements hook_css_alter().
+ *
+ * Disable Seven theme's stylesheet for node-add-list.
+ */
+function fr_add_content_css_alter(&$css, $assets) {
+  unset($css[drupal_get_path('theme', 'seven') . '/css/components/admin-list.css']);
 }
 
 /**
@@ -176,6 +196,8 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
   if (!empty($variables['content'])) {
     foreach ($variables['content'] as $type) {
 
+      $type_id = $variables['types'][$type->id()]['type'];
+
       // Key Components.
       $key_config = $type->getThirdPartySetting('fr_add_content', 'node_type_key_components');
       if (isset($key_config)) {
@@ -186,7 +208,9 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
         ];
       }
 
+      // Todo: make live example and help links into render arrays and simplify the template.
       // Live Example.
+
       $variables['types'][$type->id()]['live_example'] = UrlHelper::filterBadProtocol($type->getThirdPartySetting('fr_add_content', 'node_type_live_example'));
 
       // Help Link.
@@ -196,7 +220,6 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
       $thumb_fid = $type->getThirdPartySetting('fr_add_content', 'node_type_thumbnail');
       if (!is_null($thumb_fid)) {
         $image = File::load($thumb_fid[0]);
-        $type_id = $variables['types'][$type->id()]['type'];
 
         if ($image) {
           $variables['types'][$type->id()]['image'] = [
@@ -206,6 +229,23 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
             '#alt' => 'Thumbnail image of the ' . $type_id . ' content type',
           ];
         }
+      }
+
+      //Optional Tour Link (depends on FR Tour module.)
+      $tour_config = $type->getThirdPartySetting('first_run_tours', $type_id);
+      if (isset($tour_config)) {
+        $option = [
+          'query' => ['tour' => 1],
+        ];
+        $variables['types'][$type->id()]['tour'] = [
+          '#type' => 'link',
+          '#title' => t('Take a tour'),
+          '#url' => Url::fromRoute('node.add', ['node_type' => $type_id], $option),
+          '#attributes' => [
+            'class' => ['ct-details-link ct-tour'],
+          ],
+        ];
+
       }
     }
   }
