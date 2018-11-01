@@ -173,8 +173,15 @@ function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $fo
 function _fr_add_content_node_type_form_builder($entity_type, NodeType $node_type, &$form, FormStateInterface $form_state) {
 
   $node_type->setThirdPartySetting('fr_add_content', 'node_type_key_components', $form_state->getValue('node_type_key_components'));
+
+
   $node_type->setThirdPartySetting('fr_add_content', 'node_type_live_example', $form_state->getValue('node_type_live_example'));
+
+
   $node_type->setThirdPartySetting('fr_add_content', 'node_type_help_link', $form_state->getValue('node_type_help_link'));
+
+
+
 
   if ($form_state->getValue('node_type_thumbnail')) {
     $node_type->setThirdPartySetting('fr_add_content', 'node_type_thumbnail', $form_state->getValue('node_type_thumbnail'));
@@ -236,7 +243,7 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
 
       // Optional Tour Link (depends on FR Tour module.)
       $tour_config = $type->getThirdPartySetting('first_run_tours', $type_id);
-      if (isset($tour_config)) {
+      if (($tour_config === 1)) {
         $option = [
           'query' => ['tour' => 1],
         ];
@@ -251,6 +258,7 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
 
       }
     }
+
   }
 
 }
