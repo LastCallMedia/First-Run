@@ -62,7 +62,10 @@ function fr_add_content_page_attachments(array &$page) {
  * Disable Seven theme's stylesheet for node-add-list.
  */
 function fr_add_content_css_alter(&$css, $assets) {
-  unset($css[drupal_get_path('theme', 'seven') . '/css/components/admin-list.css']);
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name == 'node.add_page') {
+    unset($css[drupal_get_path('theme', 'seven') . '/css/components/admin-list.css']);
+  }
 }
 
 /**

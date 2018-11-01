@@ -16,6 +16,10 @@ ul.admin-list {
   list-style-image: none;
 }
 
+.admin-list > li > .ct-label a {
+  background: none !important;
+}
+
 .admin-list-item .ct-thumbnail {
   padding-top: 1.5rem;
 }
@@ -63,3 +67,17 @@ h3.ct-label {
 .ct-details-link {
   display: block;
 }
+
+.admin-list li a.ct-details-link {
+  /*web/core/misc/icons/bebebe/chevron-disc-right.svg*/
+  background: url(/core/misc/icons/bebebe/chevron-disc-right.svg) no-repeat 1px 16px; /* LTR */
+  display: block;
+  padding: 14px 15px 14px 25px; /* LTR */
+  min-height: 0;
+}
+[dir="rtl"] .admin-list li a.ct-details-link {
+  background: url(/core/misc/icons/bebebe/chevron-disc-left.svg) no-repeat right 16px;
+  padding-right: 25px;
+  padding-left: 15px;
+}
+
