@@ -173,15 +173,8 @@ function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $fo
 function _fr_add_content_node_type_form_builder($entity_type, NodeType $node_type, &$form, FormStateInterface $form_state) {
 
   $node_type->setThirdPartySetting('fr_add_content', 'node_type_key_components', $form_state->getValue('node_type_key_components'));
-
-
   $node_type->setThirdPartySetting('fr_add_content', 'node_type_live_example', $form_state->getValue('node_type_live_example'));
-
-
   $node_type->setThirdPartySetting('fr_add_content', 'node_type_help_link', $form_state->getValue('node_type_help_link'));
-
-
-
 
   if ($form_state->getValue('node_type_thumbnail')) {
     $node_type->setThirdPartySetting('fr_add_content', 'node_type_thumbnail', $form_state->getValue('node_type_thumbnail'));
