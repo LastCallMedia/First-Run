@@ -4,4 +4,3 @@ fr_add_content.node-add-list:
     theme:
       css/admin-list.css: {}
       css/admin-categories-list.css: {}
-
