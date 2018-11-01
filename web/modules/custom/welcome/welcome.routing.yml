@@ -1,5 +1,5 @@
 welcome.welcome_home:
-  path: '/welcome'
+  path: '/admin/welcome'
   defaults:
     _controller: '\Drupal\welcome\Controller\WelcomeController::content'
     _title: 'Welcome'

@@ -10,15 +10,15 @@ use Drupal\Core\Controller\ControllerBase;
 class WelcomeController extends ControllerBase {
 
   /**
-   * Welcome.
+   * Welcome content.
    *
-   * @return string
-   *   Return Hello string.
+   * @return array
+   *   Return Welcome array.
    */
   public function content() {
     return [
-      '#type' => 'markup',
-      '#markup' => $this->t('Welcome to the welcome page!'),
+      '#theme' => 'welcome',
+      '#welcome_content' => $this->t('Welcome to welcome!'),
     ];
   }
 

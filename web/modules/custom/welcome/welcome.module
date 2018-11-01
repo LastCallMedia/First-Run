@@ -32,7 +32,9 @@ function welcome_help($route_name, RouteMatchInterface $route_match) {
 function welcome_theme() {
   return [
     'welcome' => [
-      'render element' => 'children',
+      'variables' => [
+        'welcome_content' => NULL
+      ],
     ],
   ];
 }
@@ -80,5 +82,14 @@ function welcome_preprocess_html(&$variables) {
 
   if ($current_route == 'welcome.welcome_home') {
     $variables['attributes']['class'][] = 'welcome-home';
+  }
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function welcome_page_attachments(array &$page) {
+  if (\Drupal::service('current_route_match')->getRouteName() == 'welcome.welcome_home') {
+    $page['#attached']['library'][] = 'welcome/welcome.styles';
   }
 }
