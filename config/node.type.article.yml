@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - first_run_tours
     - fr_add_content
     - menu_ui
 third_party_settings:
@@ -14,6 +15,8 @@ third_party_settings:
     available_menus:
       - main
     parent: 'main:'
+  first_run_tours:
+    article: 0
 _core:
   default_config_hash: AeW1SEDgb1OTQACAWGhzvMknMYAJlcZu0jljfeU3oso
 name: Article

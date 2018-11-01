@@ -1,0 +1,28 @@
+uuid: 73ab8ffe-2cb9-4b80-b2d4-bf40d62b0ab1
+langcode: en
+status: true
+dependencies:
+  module:
+    - first_run_tours
+id: node-add-article
+label: 'Node Edit Article'
+module: first_run_tours
+routes: {  }
+tips:
+  article-welcome:
+    id: article-welcome
+    plugin: text
+    label: Welcome
+    weight: -100
+    attributes: null
+    body: 'Welcome to the Article tour. Here are some tips on the fields you will be using.'
+    location: null
+  node-add-body:
+    id: node-add-body
+    plugin: text
+    label: Body
+    weight: 100
+    attributes:
+      data-id: edit-body-wrapper
+    body: null
+    location: top
