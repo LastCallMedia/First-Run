@@ -211,7 +211,8 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
         ];
       }
 
-      // Todo: make live example and help links into render arrays and simplify the template.
+      // Todo: make live example and help links into render arrays and simplify
+      // the template.
       // Live Example.
       $variables['types'][$type->id()]['live_example'] = UrlHelper::filterBadProtocol($type->getThirdPartySetting('fr_add_content', 'node_type_live_example'));
 
