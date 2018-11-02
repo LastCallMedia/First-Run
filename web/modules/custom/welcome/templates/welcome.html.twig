@@ -1,25 +1,35 @@
-{{ welcome_content }}
 
 <div class="welcome-container">
   <div class="col welcome-left">
-    <details class="seven-details" open>
-      {#<h2>What's New?</h2>#}
-      <summary role="button" aria-controls="edit-theme-settings" aria-expanded="true" aria-pressed="true" class="seven-details__summary">What's New?</summary>
-      <div class="seven-details__wrapper details-wrapper">{{ whats_new }}</div>
-   </details>
-    <div class="panel">
-      <h2>Watched Items</h2>
 
-   {{ recently_added_content }}
+    {% if whats_new %}
+      <details open>
+        <summary role="button" aria-expanded="true" aria-pressed="true" >{{ 'What\'s New?'|t }}</summary>
+        <div class="details-wrapper">{{ whats_new }}</div>
+     </details>
+    {% endif %}
 
-    </div>
-  </div>
+    {% if recently_added_content %}
+    <details open>
+      <summary role="button" aria-expanded="true" aria-pressed="true" >{{ 'Recently Added Content'|t }}</summary>
+      <div class="details-wrapper">
+        {{ recently_added_content }}
+        <a class="button" href="{{ path('node.add_page') }}">{{ 'Add content'|t }}</a>
+        <a class="button" href="{{ path('system.admin_content') }}">{{ 'Manage content'|t }}</a>
+      </div>
+    </details>
+    {% endif %}
+
+  </div>{# left column end#}
 
   <div class="col welcome-right">
-    <div class="panel">
-      <h2>Help and Support</h2>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et ipsum ligula. Vestibulum rhoncus congue erat, a vestibulum dolor consectetur ut. Proin non tempus ipsum. Maecenas viverra, urna nec hendrerit mattis, sem erat sollicitudin quam, vitae tempus justo augue gravida lorem. Vivamus in dictum tellus, ut egestas tortor. Aliquam viverra libero in felis tincidunt, eget semper ante maximus. Nam eget sodales metus, ac aliquam libero. Duis leo nulla, laoreet sit amet felis vel, laoreet cursus augue. Duis pretium accumsan odio id pellentesque. Aliquam erat volutpat. Etiam elit magna, fermentum at hendrerit vitae, dictum at nibh.
-    </div>
+    <details open>
+      <summary role="button" aria-expanded="true" aria-pressed="true" >{{ 'Help and Support'|t }}</summary>
+      <div class="details-wrapper">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et ipsum ligula. Vestibulum rhoncus congue erat, a vestibulum dolor consectetur ut. Proin non tempus ipsum. Maecenas viverra, urna nec hendrerit mattis, sem erat sollicitudin quam, vitae tempus justo augue gravida lorem. Vivamus in dictum tellus, ut egestas tortor. Aliquam viverra libero in felis tincidunt, eget semper ante maximus. Nam eget sodales metus, ac aliquam libero. Duis leo nulla, laoreet sit amet felis vel, laoreet cursus augue. Duis pretium accumsan odio id pellentesque. Aliquam erat volutpat. Etiam elit magna, fermentum at hendrerit vitae, dictum at nibh.
+      </div>
+    </details>
   </div>
+
 </div>
 
