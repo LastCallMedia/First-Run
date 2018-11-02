@@ -3,3 +3,5 @@ type: module
 description: 'Provides a welcome page.'
 core: 8.x
 package: 'Custom'
+dependencies:
+  - whats_new:whats_new
