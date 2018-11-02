@@ -49,6 +49,7 @@ class WelcomeController extends ControllerBase {
       '#theme' => 'welcome',
       '#welcome_content' => $this->t('Welcome to welcome!'),
       '#whats_new' => $whats_new_block,
+      '#recently_added_content' => views_embed_view('recently_added_content', 'block_1'),
     ];
   }
 

@@ -35,6 +35,7 @@ function welcome_theme() {
       'variables' => [
         'welcome_content' => NULL,
         'whats_new' => NULL,
+        'recently_added_content' => NULL,
       ],
     ],
   ];
