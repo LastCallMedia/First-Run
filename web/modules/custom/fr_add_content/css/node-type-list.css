@@ -8,13 +8,14 @@
 ul.admin-list {
   margin: 0;
   padding: 0;
+  
 }
 ul.admin-list  li {
   padding: 0;
+  width: 100%;
 }
 ul.admin-list > li {
   position: relative;
-  /*border-top: 1px solid #bfbfbf;*/
   margin: 0;
   list-style-type: none;
   list-style-image: none;
@@ -35,6 +36,10 @@ h3.ct-label {
 .ct-item-container {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
+}
+.ct-item-container.panel {
+  padding: 0 2rem;
 }
 .admin-list-item .details-container {
   flex: 1 1 40%;
@@ -74,5 +79,15 @@ a.button.button--add-content.button--primary {
 
 
 /* Todo until max with 950px lets go full width and stack image + links in row 1, the two description fields in row two, and the add button in row 3.*/
+
+@media all and (min-width: 950px) {
+  ul.admin-list li {
+    max-width: 60%;
+  }
+  .ct-item-container {
+    flex-direction: row;
+  }
+  
+}
 
 
