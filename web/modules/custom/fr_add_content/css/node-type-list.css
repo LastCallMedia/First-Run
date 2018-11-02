@@ -1,77 +1,68 @@
 /**
  * @file
  *
+ * Custom styles for node add list.
+ *
  */
 
 ul.admin-list {
   margin: 0;
   padding: 0;
 }
-
-.admin-list > li {
+ul.admin-list  li {
+  padding: 0;
+}
+ul.admin-list > li {
   position: relative;
-  border-top: 1px solid #bfbfbf;
+  /*border-top: 1px solid #bfbfbf;*/
   margin: 0;
   list-style-type: none;
   list-style-image: none;
 }
-
-.admin-list > li > .ct-label a {
-  background: none !important;
-}
-
 .admin-list-item .ct-thumbnail {
   padding-top: 1.5rem;
 }
 .ct-thumbnail img {
-  padding-right: 36px;
+  padding-right: 2.25rem;
 }
-
 h3.ct-label {
   display: inline-block;
   margin-top: 1.5rem;
 }
-
 .ct-label a {
   display: block;
 }
-
 .ct-item-container {
   display: flex;
   flex-wrap: wrap;
 }
-
 .admin-list-item .details-container {
   flex: 1 1 40%;
 }
-
+.admin-list-item ul {
+  padding: 0;
+}
 .details-container .description,
 .details-container .description * {
   margin-left: 0;
   padding-left: 0;
 }
 
-
 .admin-list-item .actions {
   display: flex;
+  margin: 2rem 0;
   flex: 0 0 auto;
   flex-direction: column;
-  /*align-items: flex-end;*/
-  /*justify-content: center;*/
+  align-items: flex-end;
 }
-
-.ct-details-links {
-  margin: 1.5rem 0 1rem 0;
+a.button.button--add-content.button--primary {
+  /*margin-top: 2rem;*/
 }
-
-.ct-details-link {
-  display: block;
-}
-
 .admin-list li a.ct-details-link {
-  /*web/core/misc/icons/bebebe/chevron-disc-right.svg*/
+  font-weight: bold;
+  font-size: 1.0769em;
   background: url(/core/misc/icons/bebebe/chevron-disc-right.svg) no-repeat 1px 16px; /* LTR */
-  display: block;
+  display: inline-block;
   padding: 14px 15px 14px 25px; /* LTR */
   min-height: 0;
 }
@@ -80,4 +71,8 @@ h3.ct-label {
   padding-right: 25px;
   padding-left: 15px;
 }
+
+
+/* Todo until max with 950px lets go full width and stack image + links in row 1, the two description fields in row two, and the add button in row 3.*/
+
 

@@ -17,7 +17,7 @@
   <ul class="admin-list">
     {% for type in types %}
       <li class="clearfix admin-list-item">
-        <div class="ct-item-container">
+        <div class="ct-item-container panel">
           {% if type.image %}
             <div class="col ct-thumbnail">{{ type.image }}</div>
           {% else %}
@@ -26,6 +26,20 @@
 
           <div class="col details-container">
             <h3 class="ct-label"><a href="{{ type.url }}">{{ type.label }}</a></h3>
+            {% if type.live_example or type.description %}
+              <div class="ct-details-links">
+                {% if type.tour %}
+                  {{ type.tour }}
+                {% endif %}
+                {% if type.help_link %}
+                  <a href="{{ type.help_link }}" class="ct-help ct-details-link">View help article</a>
+                {% endif %}
+                {% if type.live_example %}
+                  <a href="{{ type.live_example }}" class="ct-details-link live-example">View live example</a>
+                {% endif %}
+
+              </div>
+            {% endif %}
 
             {% if type.description %}
               <div class="description">{{ type.description }}</div>
@@ -34,25 +48,10 @@
             {% if type.key_components %}
               <div class="ct-key-components">{{ type.key_components}}</div>
             {% endif %}
-
-            {% if type.help_link %}
-              <a href="{{ type.help_link }}" class="ct-help ct-details-link ">View help article</a>
-            {% endif %}
           </div>
 
           <div class="col actions">
-            {% if type.live_example or type.description %}
-              <div class="ct-details-links">
-                {% if type.live_example %}
-                  <a href="{{ type.live_example }}" class="ct-details-link live-example">View live example</a>
-                {% endif %}
-                {% if type.tour %}
-                  {{ type.tour }}
-                {% endif %}
-              </div>
-            {% endif %}
             <a href="{{ type.url }}" class="button button--add-content button--primary">Add new {{ type.label }}</a>
-
           </div>
 
         </div>
