@@ -1,0 +1,8 @@
+
+whats_new.whats_new_controller:
+  path: '/admin/whats-new'
+  defaults:
+    _controller: '\Drupal\whats_new\Controller\WhatsNewController::content'
+    _title: What's New
+  requirements:
+    _permission: 'administer site configuration'

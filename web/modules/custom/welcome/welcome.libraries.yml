@@ -1,0 +1,5 @@
+welcome.styles:
+  version: 1.0
+  css:
+    theme:
+      css/welcome.css: {}
