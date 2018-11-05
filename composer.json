@@ -23,7 +23,8 @@
     "drupal/core": "^8.6",
     "drupal/devel": "^1.2",
     "drupal/kint": "^1.2",
-    "drupal/admin_toolbar": "^1.24"
+    "drupal/admin_toolbar": "^1.24",
+    "drupal/tour_ui": "^1.0@beta"
   },
   "require-dev": {
     "drupal/console": "^1.0.1",
