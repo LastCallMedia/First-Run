@@ -36,6 +36,7 @@ function welcome_theme() {
         'welcome_content' => NULL,
         'whats_new' => NULL,
         'recently_added_content' => NULL,
+        'support' => NULL,
       ],
     ],
   ];

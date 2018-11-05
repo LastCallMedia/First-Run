@@ -39,10 +39,11 @@ class WelcomeConfigForm extends ConfigFormBase {
       '#default_value' => $config->get('support_agency_name'),
     ];
     $form['support_agency_information'] = [
-      '#type' => 'textarea',
+      '#type' => 'text_format',
       '#title' => $this->t('Support Agency Information'),
       '#description' => $this->t('Contact info and other support agency information.'),
-      '#default_value' => $config->get('support_agency_information'),
+      '#default_value' => $config->get('support_agency_information.value'),
+      '#format' => $config->get('support_agency_information.format'),
     ];
     $form['knowledgebase_url'] = [
       '#type' => 'url',
@@ -64,12 +65,14 @@ class WelcomeConfigForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $values = $form_state->getValues();
 
     $this->config('welcome.settings')
-      ->set('support_agency_name', $form_state->getValue('support_agency_name'))
-      ->set('support_agency_information', $form_state->getValue('support_agency_information'))
-      ->set('knowledgebase_url', $form_state->getValue('knowledgebase_url'))
-      ->set('request_support_url', $form_state->getValue('request_support_url'))
+      ->set('support_agency_name', $values['support_agency_name'])
+      ->set('support_agency_information.value', $values['support_agency_information']['value'])
+      ->set('support_agency_information.format', $values['support_agency_information']['format'])
+      ->set('knowledgebase_url', $values['knowledgebase_url'])
+      ->set('request_support_url', $values['request_support_url'])
       ->save();
 
     parent::submitForm($form, $form_state);

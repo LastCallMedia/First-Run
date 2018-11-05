@@ -26,7 +26,15 @@
     <details open>
       <summary role="button" aria-expanded="true" aria-pressed="true" >{{ 'Help and Support'|t }}</summary>
       <div class="details-wrapper">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et ipsum ligula. Vestibulum rhoncus congue erat, a vestibulum dolor consectetur ut. Proin non tempus ipsum. Maecenas viverra, urna nec hendrerit mattis, sem erat sollicitudin quam, vitae tempus justo augue gravida lorem. Vivamus in dictum tellus, ut egestas tortor. Aliquam viverra libero in felis tincidunt, eget semper ante maximus. Nam eget sodales metus, ac aliquam libero. Duis leo nulla, laoreet sit amet felis vel, laoreet cursus augue. Duis pretium accumsan odio id pellentesque. Aliquam erat volutpat. Etiam elit magna, fermentum at hendrerit vitae, dictum at nibh.
+
+        <h3 class="support-name">{{ support.name }}</h3>
+
+        <div class="support-text">{{ support.text }}</div>
+
+        <div><a href="{{ support.knowledge_link }}" class="support-knowledge-link">{{ support.knowledge_link }}</a></div>
+        <div><a href="{{ support.support_link }}" class="support-link">{{ support.support_link }}</a></div>
+
+
       </div>
     </details>
   </div>
