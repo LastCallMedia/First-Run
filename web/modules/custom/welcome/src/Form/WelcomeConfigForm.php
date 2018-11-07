@@ -44,6 +44,7 @@ class WelcomeConfigForm extends ConfigFormBase {
       '#description' => $this->t('Contact info and other support agency information.'),
       '#default_value' => $config->get('support_agency_information.value'),
       '#format' => $config->get('support_agency_information.format'),
+      '#allowed_formats' => ['basic_html'],
     ];
     $form['knowledgebase_url'] = [
       '#type' => 'url',
@@ -76,6 +77,7 @@ class WelcomeConfigForm extends ConfigFormBase {
       ->save();
 
     parent::submitForm($form, $form_state);
+    $form_state->setRedirect('welcome.welcome_home');
   }
 
 }
