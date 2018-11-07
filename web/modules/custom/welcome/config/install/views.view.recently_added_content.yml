@@ -5,6 +5,10 @@ dependencies:
   module:
     - node
     - user
+    - welcome
+  enforced:
+    module:
+      - welcome
 id: recently_added_content
 label: 'Recently Added Content'
 module: views
