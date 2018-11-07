@@ -1,4 +1,3 @@
-welcome:
-  support_agency_name: "Drupal Support"
-  knowledgebase_url: "https://www.drupal.org/support"
-  request_support_url: "https://www.drupal.org/support"
+support_agency_name: Drupal Support
+knowledgebase_url: 'https://www.drupal.org/support'
+request_support_url: 'https://www.drupal.org/support'
