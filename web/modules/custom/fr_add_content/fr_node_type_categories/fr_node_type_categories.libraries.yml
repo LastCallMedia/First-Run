@@ -1,0 +1,5 @@
+fr_node_type_categories.node-type-categories-list:
+  version: 1.x
+  css:
+    theme:
+      css/node-type-categories-list.css: {}

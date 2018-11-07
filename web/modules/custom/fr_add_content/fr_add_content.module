@@ -18,8 +18,7 @@ use Drupal\Component\Utility\UrlHelper;
  */
 function fr_add_content_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
-    // Main module help for the mass_admin_pages module.
-    case 'help.page.mass_admin_pages':
+    case 'help.page.fr_add_content':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
       $output .= '<p>' . t('Adds a custom add content page that enhances the node add list with extra information.') . '</p>';
@@ -121,6 +120,8 @@ function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $fo
   $help_link_config = $node_type->getThirdPartySetting('fr_add_content', 'node_type_help_link', NULL);
   $thumbnail_config = $node_type->getThirdPartySetting('fr_add_content', 'node_type_thumbnail', NULL);
 
+  $form['description']['#weight'] = 0;
+
   $form['node_type_key_components'] = [
     '#type' => 'textarea',
     '#title' => t('Key Components'),
@@ -211,8 +212,7 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
         ];
       }
 
-      // Todo: make live example and help links into render arrays and simplify
-      // the template.
+      // Todo: make example and help links into render arrays.
       // Live Example.
       $variables['types'][$type->id()]['live_example'] = UrlHelper::filterBadProtocol($type->getThirdPartySetting('fr_add_content', 'node_type_live_example'));
 
@@ -250,8 +250,13 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
         ];
 
       }
-    }
 
+      // Categories.
+      $cats = _get_used_categories();
+      if ($cats) {
+        $variables['categories'] = $cats;
+      }
+    }
   }
 
 }

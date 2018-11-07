@@ -1,0 +1,96 @@
+<?php
+
+/**
+ * @file
+ * Contains fr_node_type_categories.module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\node\Entity\NodeType;
+
+/**
+ * Implements hook_help().
+ */
+function fr_node_type_categories_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.for_node_type_categories':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Enhances the node/add experience with fields to categorize node types, and displays the node type by list by category.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function fr_node_type_categories_page_attachments(array &$page) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name == 'node.add_page') {
+    $page['#attached']['library'][] = 'fr_node_type_categories/fr_node_type_categories.node-type-categories-list';
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function fr_node_type_categories_form_node_type_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  /** @var \Drupal\node\NodeTypeForm $node_type_form */
+  $node_type_form = $form_state->getFormObject();
+  /** @var \Drupal\node\Entity\NodeType $node_type */
+  $node_type = $node_type_form->getEntity();
+
+  $cat_config = $node_type->getThirdPartySetting('fr_node_type_categories', 'node_type_category', NULL);
+  $form['node_type_category'] = [
+    '#type' => 'select',
+    '#required' => TRUE,
+    '#options' => FR_CT_CATEGORIES,
+    '#title' => t('Category'),
+    '#weight' => 0,
+    '#default_value' => $cat_config,
+  ];
+
+  $form['#entity_builders'][] = '_fr_node_type_categories_node_type_form_builder';
+
+}
+
+/**
+ * Entity form builder for category select list.
+ */
+function _fr_node_type_categories_node_type_form_builder($entity_type, NodeType $node_type, &$form, FormStateInterface $form_state) {
+  $node_type->setThirdPartySetting('fr_node_type_categories', 'node_type_category', $form_state->getValue('node_type_category'));
+}
+
+/**
+ * Helper function to find non-empty content type categories.
+ *
+ * @return array
+ *   Content type categories with sub-items.
+ */
+function _get_used_categories() {
+  $content_types = \Drupal::service('entity_type.manager')->getStorage('node_type')->loadMultiple();
+  $categories_in_use = [];
+  $user = \Drupal::currentUser();
+  foreach ($content_types as $content_type) {
+    $content_type_name = $content_type->id();
+    if ($user->hasPermission('create ' . $content_type_name . ' content')) {
+      $cat_id = $content_type->getThirdPartySetting('fr_node_type_categories', 'node_type_category');
+      if (isset($cat_id)) {
+        $categories_in_use[$cat_id] = FR_CT_CATEGORIES[$cat_id];
+      }
+    }
+  }
+  $categories_in_use = array_intersect(FR_CT_CATEGORIES, $categories_in_use);
+  return $categories_in_use;
+}
+
+/**
+ * Content type categories.
+ */
+const FR_CT_CATEGORIES = [
+  'default' => 'Default Category',
+
+];
