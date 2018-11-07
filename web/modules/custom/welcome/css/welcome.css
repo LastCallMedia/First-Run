@@ -1,22 +1,5 @@
-.welcome-container {
-  background-color: white;
-}
-
-.welcome-container .welcome-box {
-  padding: 10px;
-  margin-bottom: 20px;
-}
-
 .welcome-container .col {
   margin-bottom: 20px;
-}
-
-.welcome-left .welcome-box {
-  background-color: lightblue;
-}
-
-.welcome-right .welcome-box {
-  background-color: lightyellow;
 }
 
 @media only screen and (min-width: 640px) {
@@ -27,11 +10,40 @@
 
   .welcome-left {
     width: 66%;
-    border-right: 10px solid white;
+    border-right: 10px solid transparent;
   }
 
   .welcome-right {
     width: 33%;
-    border-left: 10px solid white;
+    border-left: 10px solid transparent;
   }
 }
+
+
+.welcome-container details {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  background-color: #fcfcfa;
+  border: 1px solid #bfbfbf;
+  border-radius: 3px;
+  line-height: 1.295em;
+  overflow: scroll;
+}
+
+.welcome-container details summary {
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 0.95em 1.45em;
+  cursor: pointer;
+  text-shadow: 0 1px 0 white;
+  color: #0074bd;
+}
+
+.welcome-container details .details-wrapper {
+  padding: 0 1.5em 1em 1.5em;
+}
+
+.welcome-container details[open] > summary {
+  color: #004f80;
+}
+

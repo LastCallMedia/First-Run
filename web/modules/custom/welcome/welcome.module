@@ -33,7 +33,9 @@ function welcome_theme() {
   return [
     'welcome' => [
       'variables' => [
-        'welcome_content' => NULL,
+        'whats_new' => NULL,
+        'recently_added_content' => NULL,
+        'support' => NULL,
       ],
     ],
   ];
