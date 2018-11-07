@@ -53,13 +53,13 @@ class WelcomeController extends ControllerBase {
       '#recently_added_content' => views_embed_view('recently_added_content', 'block_1'),
       '#support' => [
         'name' => $welcome_settings['support_agency_name'],
-        'info' =>  check_markup(
+        'info' => check_markup(
           $welcome_settings['support_agency_information']['value'],
           $welcome_settings['support_agency_information']['format']
         ),
         'knowledge_link' => $welcome_settings['knowledgebase_url'],
         'support_link' => $welcome_settings['request_support_url'],
-      ]
+      ],
     ];
   }
 
