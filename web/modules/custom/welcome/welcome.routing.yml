@@ -4,7 +4,7 @@ welcome.welcome_home:
     _controller: '\Drupal\welcome\Controller\WelcomeController::content'
     _title: 'Welcome'
   requirements:
-    _permission: 'access content'
+    _permission: 'access welcome page'
 
 welcome.welcome_config_form:
   path: '/admin/welcome/welcome_settings'
@@ -12,4 +12,4 @@ welcome.welcome_config_form:
     _form: '\Drupal\welcome\Form\WelcomeConfigForm'
     _title: 'Welcome Settings'
   requirements:
-    _permission: 'administer site configuration'
+    _permission: 'administer welcome page'

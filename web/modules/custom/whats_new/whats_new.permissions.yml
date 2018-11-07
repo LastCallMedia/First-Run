@@ -1,0 +1,4 @@
+access whats_new page:
+  title: View What's New page
+  description: 'Controls access to the /admin/whats-new page.'
+  restrict access: true

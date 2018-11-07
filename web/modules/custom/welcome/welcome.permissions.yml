@@ -1,0 +1,8 @@
+access welcome page:
+  title: View Welcome page
+  description: 'Controls access to the /admin/welcome page.'
+  restrict access: true
+administer welcome page:
+  title: Change Welcome page settings
+  description: 'Controls access to the /admin/welcome/welcome_settings page.'
+  restrict access: true

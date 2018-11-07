@@ -4,4 +4,4 @@ first_run_tours.tours_form:
     _form: '\Drupal\first_run_tours\Form\ToursForm'
     _title: 'Tours Form'
   requirements:
-    _permission: 'administer site configuration'
+    _permission: 'administer content types'
