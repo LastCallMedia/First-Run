@@ -25,6 +25,27 @@ function fr_node_type_categories_help($route_name, RouteMatchInterface $route_ma
 }
 
 /**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function fr_node_type_categories_theme_suggestions_node_add_list_alter(array &$suggestions, array $variables) {
+  $suggestions[] = 'first_run__node_type_cat_list';
+}
+
+/**
+ * Implements hook_theme().
+ */
+function fr_node_type_categories_theme($existing, $type, $theme, $path) {
+  return [
+    'first_run__node_type_cat_list' => [
+      'template' => 'first-run--node-type-cat-list',
+      'base hook' => 'node_add_list',
+    ],
+
+  ];
+
+}
+
+/**
  * Implements hook_page_attachments().
  */
 function fr_node_type_categories_page_attachments(array &$page) {
@@ -43,7 +64,7 @@ function fr_node_type_categories_form_node_type_form_alter(&$form, FormStateInte
   /** @var \Drupal\node\Entity\NodeType $node_type */
   $node_type = $node_type_form->getEntity();
 
-  $cat_config = $node_type->getThirdPartySetting('fr_node_type_categories', 'node_type_category', NULL);
+  $cat_config = $node_type->getThirdPartySetting('fr_node_type_categories', 'node_type_category', 'default');
   $form['node_type_category'] = [
     '#type' => 'select',
     '#required' => TRUE,
@@ -54,7 +75,6 @@ function fr_node_type_categories_form_node_type_form_alter(&$form, FormStateInte
   ];
 
   $form['#entity_builders'][] = '_fr_node_type_categories_node_type_form_builder';
-
 }
 
 /**
@@ -94,3 +114,14 @@ const FR_CT_CATEGORIES = [
   'default' => 'Default Category',
 
 ];
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function fr_node_type_categories_preprocess_node_add_list(&$variables) {
+  // Categories.
+  $cats = _get_used_categories();
+  if ($cats) {
+    $variables['categories'] = $cats;
+  }
+}
