@@ -60,4 +60,29 @@ class FirstRunToursUnitTest extends UnitTestCase {
     $this->assertArrayHasKey('machine-name-welcome', $result);
   }
 
+  /**
+   * testCreateTips.
+   */
+  public function testCreateTips() {
+    $fields = [
+      'node-add-body' => [
+        'label' => 'Body',
+        'tip_id' => 'node-add-body',
+        'data_id' => 'body',
+        'description' => 'The body field.',
+      ],
+      'node-add-field-image'	=> [
+        'label' => 'Image',
+        'tip_id' => 'node-add-image',
+        'data_id' => 'image',
+        'description' => 'The image field.',
+      ],
+    ];
+    $result = $this->tours_form->createTips($fields);
+    $this->assertArrayHasKey('node-add-body', $result);
+    $this->assertArrayHasKey('node-add-image', $result);
+    $this->assertEquals($result['node-add-body']['attributes']['data-id'], 'edit-body-wrapper');
+    $this->assertEquals($result['node-add-image']['attributes']['data-id'], 'edit-image-wrapper');
+  }
+
 }

@@ -9,7 +9,7 @@ use Drupal\Tests\BrowserTestBase;
  *
  * @group whats_new
  */
-class BasicTestCase extends BrowserTestBase {
+class WhatsNewPageTest extends BrowserTestBase {
 
   /**
    * {@inheritdoc}
