@@ -17,5 +17,4 @@ function fr_node_type_categories_install() {
   foreach ($node_types as $node_type) {
     $node_type->save();
   }
-  echo 'is this thing on?';
 }
