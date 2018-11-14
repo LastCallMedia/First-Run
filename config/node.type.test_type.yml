@@ -5,6 +5,7 @@ dependencies:
   module:
     - first_run_tours
     - fr_add_content
+    - mass_admin_pages
     - menu_ui
 third_party_settings:
   menu_ui:
@@ -15,10 +16,10 @@ third_party_settings:
     node_type_key_components: "<ul>\r\n<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>\r\n<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>\r\n<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>\r\n</ul>"
     node_type_live_example: 'http://fr.localhost:8888/admin/structure/types/manage/test_type'
     node_type_help_link: 'http://fr.localhost:8888/admin/structure/types/manage/test_type'
-    node_type_thumbnail:
-      - '44'
   first_run_tours:
     test_type: 1
+  mass_admin_pages:
+    node_type_category: default
 name: 'Test type'
 type: test_type
 description: 'This is the description field provided by Drupal Core. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. '

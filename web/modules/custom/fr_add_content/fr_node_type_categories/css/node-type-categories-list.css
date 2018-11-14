@@ -10,3 +10,9 @@ ul.admin-category-list {
   padding: 0;
   list-style: none;
 }
+.admin-category-list .category-details summary.category-header {
+  border-bottom: 1px solid #ccc;
+}
+.admin-category-list .category-details[open] summary.category-header {
+  border-bottom: none;
+}

@@ -176,7 +176,6 @@ function _fr_add_content_node_type_form_builder($entity_type, NodeType $node_typ
   $node_type->setThirdPartySetting('fr_add_content', 'node_type_key_components', $form_state->getValue('node_type_key_components'));
   $node_type->setThirdPartySetting('fr_add_content', 'node_type_live_example', $form_state->getValue('node_type_live_example'));
   $node_type->setThirdPartySetting('fr_add_content', 'node_type_help_link', $form_state->getValue('node_type_help_link'));
-
   if ($form_state->getValue('node_type_thumbnail')) {
     $node_type->setThirdPartySetting('fr_add_content', 'node_type_thumbnail', $form_state->getValue('node_type_thumbnail'));
   }
@@ -251,6 +250,9 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
 
       }
 
+      // Type Category.
+      $cat_id = $type->getThirdPartySetting('fr_node_type_categories', 'node_type_category');
+      $variables['types'][$type->id()]['node_type_category'] = (!empty($cat_id)) ? FR_CT_CATEGORIES[$cat_id] : '';
     }
   }
 

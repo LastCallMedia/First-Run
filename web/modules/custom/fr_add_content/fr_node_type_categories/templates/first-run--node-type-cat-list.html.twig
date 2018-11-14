@@ -17,12 +17,10 @@
   <ul class="admin-category-list">
     {% for key, value in categories %}
       <li>
-        <details class="category-details" open>
-          <summary class="category-header"><span id="{{ key }}"  class="type-category">{{ value }}
-              {#<a class="back-to-top" href="#top">Top</a>#}
-            </span></summary>
-          <ul class="admin-list">
-            {% for type in types %}
+        <h2 class="category-header"><span id="{{ key }}"  class="type-category">{{ value }}</span> <a class="back-to-top" href="#top">Top</a></h2>
+        <ul class="admin-list">
+          {% for type in types %}
+            {% if type.node_type_category == value %}
               <li class="clearfix admin-list-item">
                 <div class="ct-item-container panel">
                   {% if type.image %}
@@ -33,7 +31,7 @@
 
                   <div class="col details-container">
                     <h3 class="ct-label"><a href="{{ type.url }}">{{ type.label }}</a></h3>
-                    {% if type.live_example or type.description %}
+                    {% if type.tour or type.help_link or type.live_example %}
                       <div class="ct-details-links">
                         {% if type.tour %}
                           {{ type.tour }}
@@ -44,7 +42,6 @@
                         {% if type.live_example %}
                           <a href="{{ type.live_example }}" class="ct-details-link live-example">View live example</a>
                         {% endif %}
-
                       </div>
                     {% endif %}
 
@@ -63,12 +60,12 @@
 
                 </div>
               </li>
-
-            {% endfor %}
-          </ul>
-        </details>
+            {% endif %}
+          {% endfor %}
+        </ul>
       </li>
     {% endfor %}
+
   </ul>
 
 

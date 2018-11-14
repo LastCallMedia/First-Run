@@ -64,7 +64,7 @@ function fr_node_type_categories_form_node_type_form_alter(&$form, FormStateInte
   /** @var \Drupal\node\Entity\NodeType $node_type */
   $node_type = $node_type_form->getEntity();
 
-  $cat_config = $node_type->getThirdPartySetting('fr_node_type_categories', 'node_type_category', 'default');
+  $cat_config = $node_type->getThirdPartySetting('fr_node_type_categories', 'node_type_category', NULL);
   $form['node_type_category'] = [
     '#type' => 'select',
     '#required' => TRUE,
@@ -91,13 +91,13 @@ function _fr_node_type_categories_node_type_form_builder($entity_type, NodeType 
  *   Content type categories with sub-items.
  */
 function _get_used_categories() {
-  $content_types = \Drupal::service('entity_type.manager')->getStorage('node_type')->loadMultiple();
+  $node_types = \Drupal::service('entity_type.manager')->getStorage('node_type')->loadMultiple();
   $categories_in_use = [];
   $user = \Drupal::currentUser();
-  foreach ($content_types as $content_type) {
-    $content_type_name = $content_type->id();
-    if ($user->hasPermission('create ' . $content_type_name . ' content')) {
-      $cat_id = $content_type->getThirdPartySetting('fr_node_type_categories', 'node_type_category');
+  foreach ($node_types as $type) {
+    $type_name = $type->id();
+    if ($user->hasPermission('create ' . $type_name . ' content')) {
+      $cat_id = $type->getThirdPartySetting('fr_node_type_categories', 'node_type_category');
       if (isset($cat_id)) {
         $categories_in_use[$cat_id] = FR_CT_CATEGORIES[$cat_id];
       }
@@ -112,7 +112,7 @@ function _get_used_categories() {
  */
 const FR_CT_CATEGORIES = [
   'default' => 'Default Category',
-
+  'test_1' => 'Test 1',
 ];
 
 /**
@@ -120,8 +120,5 @@ const FR_CT_CATEGORIES = [
  */
 function fr_node_type_categories_preprocess_node_add_list(&$variables) {
   // Categories.
-  $cats = _get_used_categories();
-  if ($cats) {
-    $variables['categories'] = $cats;
-  }
+  $variables['categories'] = _get_used_categories();
 }

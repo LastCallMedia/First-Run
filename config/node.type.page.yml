@@ -1,7 +1,19 @@
 uuid: 2e6dda49-2042-4d9c-bf89-05111fb51194
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - fr_add_content
+    - menu_ui
+third_party_settings:
+  fr_add_content:
+    node_type_key_components: ''
+    node_type_live_example: ''
+    node_type_help_link: ''
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
 _core:
   default_config_hash: KuyA4NHPXcmKAjRtwa0vQc2ZcyrUJy6IlS2TAyMNRbc
 name: 'Basic page'
