@@ -1,0 +1,13 @@
+welcome.settings:
+  type: config_object
+  label: 'Welcome Settings'
+  mapping:
+    support_agency_name:
+      type: text
+      label: 'Support Agency Name.'
+    knowledgebase_url:
+      type: uri
+      label: 'KnowledgeBase URL'
+    request_support_url:
+      type: uri
+      label: 'Request Support URL'
