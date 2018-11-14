@@ -47,7 +47,7 @@ class WhatsNewPageTest extends BrowserTestBase {
     $this->assertSession()->statusCodeEquals(200);
 
     // Confirm that the whats-new page contains the title text.
-    $this->assertText(t('What\'s New'));
+    $this->assertText(t("What's New"));
   }
 
 }
