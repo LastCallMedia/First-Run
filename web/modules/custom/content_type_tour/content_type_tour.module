@@ -1,0 +1,87 @@
+<?php
+
+/**
+ * @file
+ * Contains content_type_tour.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\tour\Entity\Tour;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Entity\NodeType;
+use Drupal\content_type_tour\Form\TourForm;
+
+/**
+ * Implements hook_help().
+ */
+function content_type_tour_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the content_type_tour module.
+    case 'help.page.content_type_tour':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Extends the Tour module to create tours specific to /node/add/{node_type} pages') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_page_bottom().
+ */
+function content_type_tour_page_bottom(array &$page_bottom) {
+  $request = \Drupal::service('request_stack')->getCurrentRequest()->get('_route_params');
+  $route_name = \Drupal::routeMatch()->getRouteName();
+
+  // Must be on /node/add/{nodetype} page.
+  if ($route_name !== 'node.add') {
+    return;
+  }
+
+  $ct_machine_name = $request['node_type']->get('type');
+  $node_type = NodeType::load($ct_machine_name);
+
+  // "Enable tour" checkbox must be checked.
+  if ($node_type == NULL || $node_type->getThirdPartySetting('content_type_tour', $ct_machine_name) == 0) {
+    return;
+  }
+
+  if (isset($ct_machine_name)) {
+    $tour_id = TourForm::TOUR_ID_PREFIX . str_replace('_', '-', $ct_machine_name);
+    $results = \Drupal::entityQuery('tour')
+      ->condition('id', $tour_id)
+      ->execute();
+
+    if (!empty($results) && $tours = Tour::loadMultiple(array_keys($results))) {
+      if (!empty($tours)) {
+        $view_builder = \Drupal::entityTypeManager()->getViewBuilder('tour');
+        $page_bottom['tour'] = $view_builder->viewMultiple($tours, 'full');
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function content_type_tour_form_tour_form_alter(&$form, FormStateInterface $form_state) {
+  if ($form_state->getFormObject()->getEntity()->get('module') == 'content_type_tour') {
+    $form['module']['#disabled'] = 'disabled';
+    $form['routes']['#disabled'] = 'disabled';
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete() for tour entities.
+ */
+function content_type_tour_tour_delete($entity) {
+  if ($entity->getModule() == 'content_type_tour' && $entity->getEntityTypeId() == 'tour') {
+    $ct_machine_name = str_replace([TourForm::TOUR_ID_PREFIX, '-'], ['', '_'], $entity->id());
+    $node_type = NodeType::load($ct_machine_name);
+
+    if ($node_type !== NULL && $node_type->getThirdPartySetting('content_type_tour', $ct_machine_name)) {
+      $node_type->setThirdPartySetting('content_type_tour', $ct_machine_name, 0)->save();
+    }
+  }
+}

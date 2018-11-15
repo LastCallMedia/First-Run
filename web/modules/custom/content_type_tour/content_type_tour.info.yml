@@ -1,0 +1,8 @@
+name: Content Type Tour
+type: module
+description: Custom Tour Module that enhances tour functionality for the /node/add/{node_type} page.
+core: 8.x
+package: Custom
+dependencies:
+  - drupal:tour
+  - tour_ui:tour_ui

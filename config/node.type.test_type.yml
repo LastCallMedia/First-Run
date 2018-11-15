@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   module:
-    - first_run_tours
     - fr_add_content
     - menu_ui
 third_party_settings:
@@ -17,8 +16,6 @@ third_party_settings:
     node_type_help_link: 'http://fr.localhost:8888/admin/structure/types/manage/test_type'
     node_type_thumbnail:
       - '44'
-  first_run_tours:
-    test_type: 1
 name: 'Test type'
 type: test_type
 description: 'This is the description field provided by Drupal Core. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. '

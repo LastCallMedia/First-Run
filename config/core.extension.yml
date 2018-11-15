@@ -9,6 +9,7 @@ module:
   comment: 0
   config: 0
   contact: 0
+  content_type_tour: 0
   contextual: 0
   datetime: 0
   dblog: 0
@@ -18,7 +19,6 @@ module:
   field_ui: 0
   file: 0
   filter: 0
-  first_run_tours: 0
   fr_add_content: 0
   fr_core: 0
   help: 0
