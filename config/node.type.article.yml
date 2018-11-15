@@ -5,6 +5,7 @@ dependencies:
   module:
     - first_run_tours
     - fr_add_content
+    - fr_node_type_categories
     - menu_ui
 third_party_settings:
   fr_add_content:
@@ -17,6 +18,8 @@ third_party_settings:
     parent: 'main:'
   first_run_tours:
     article: 0
+  fr_node_type_categories:
+    node_type_category: test_2
 _core:
   default_config_hash: AeW1SEDgb1OTQACAWGhzvMknMYAJlcZu0jljfeU3oso
 name: Article

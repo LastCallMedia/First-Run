@@ -252,7 +252,7 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
 
       // Type Category.
       $cat_id = $type->getThirdPartySetting('fr_node_type_categories', 'node_type_category');
-      $variables['types'][$type->id()]['node_type_category'] = (!empty($cat_id)) ? FR_CT_CATEGORIES[$cat_id] : '';
+      $variables['types'][$type->id()]['node_type_category'] = (!empty($cat_id)) ? FR_CT_CATEGORIES[$cat_id] : 'Uncategorized';
     }
   }
 

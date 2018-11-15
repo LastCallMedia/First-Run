@@ -64,10 +64,10 @@ function fr_node_type_categories_form_node_type_form_alter(&$form, FormStateInte
   /** @var \Drupal\node\Entity\NodeType $node_type */
   $node_type = $node_type_form->getEntity();
 
-  $cat_config = $node_type->getThirdPartySetting('fr_node_type_categories', 'node_type_category', NULL);
+  $cat_config = $node_type->getThirdPartySetting('fr_node_type_categories', 'node_type_category', 'Uncategorized');
   $form['node_type_category'] = [
     '#type' => 'select',
-    '#required' => TRUE,
+    '#required' => FALSE,
     '#options' => FR_CT_CATEGORIES,
     '#title' => t('Category'),
     '#weight' => 0,
@@ -111,8 +111,9 @@ function _get_used_categories() {
  * Content type categories.
  */
 const FR_CT_CATEGORIES = [
-  'default' => 'Default Category',
+  'uncategorized' => 'Uncategorized',
   'test_1' => 'Test 1',
+  'test_2' => 'Test 2',
 ];
 
 /**
