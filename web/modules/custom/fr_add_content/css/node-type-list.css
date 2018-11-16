@@ -78,10 +78,8 @@ a.button.button--add-content.button--primary {
 }
 
 
-/* Todo until max with 950px lets go full width and stack image + links in row 1, the two description fields in row two, and the add button in row 3.*/
-
 @media all and (min-width: 950px) {
-  ul.admin-list li {
+  ul.admin-list {
     max-width: 60%;
   }
   .ct-item-container {

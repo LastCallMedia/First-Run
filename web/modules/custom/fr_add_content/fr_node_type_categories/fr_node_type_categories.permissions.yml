@@ -1,0 +1,4 @@
+administer node type categories:
+  title: 'Administer Node Type Categories'
+  description: 'Allows access the form for configuring a node type categories list'
+  restrict access: true

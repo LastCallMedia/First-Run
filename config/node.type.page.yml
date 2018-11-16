@@ -8,7 +8,6 @@ dependencies:
     - menu_ui
 third_party_settings:
   fr_add_content:
-    node_type_key_components: ''
     node_type_live_example: ''
     node_type_help_link: ''
   menu_ui:

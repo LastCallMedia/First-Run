@@ -9,7 +9,6 @@ dependencies:
     - menu_ui
 third_party_settings:
   fr_add_content:
-    node_type_key_components: '<div>Key Components don''t have to be a list. But they can be a list.</div>'
     node_type_live_example: 'http://fr.localhost:8888/admin/structure/types/manage/article?destination=/admin/structure/types'
     node_type_help_link: 'http://fr.localhost:8888/admin/structure/types/manage/article?destination=/admin/structure/types'
   menu_ui:

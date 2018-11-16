@@ -13,13 +13,13 @@ third_party_settings:
       - main
     parent: 'main:'
   fr_add_content:
-    node_type_key_components: "<ul>\r\n<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>\r\n<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>\r\n<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>\r\n</ul>"
     node_type_live_example: 'http://fr.localhost:8888/admin/structure/types/manage/test_type'
     node_type_help_link: 'http://fr.localhost:8888/admin/structure/types/manage/test_type'
+    node_type_long_description: "<ul>\r\n<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>\r\n<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>\r\n<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>\r\n</ul>"
   first_run_tours:
     test_type: 1
   fr_node_type_categories:
-    node_type_category: test_1
+    node_type_category: uncategorized
 name: 'Test type'
 type: test_type
 description: 'This is the description field provided by Drupal Core. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
