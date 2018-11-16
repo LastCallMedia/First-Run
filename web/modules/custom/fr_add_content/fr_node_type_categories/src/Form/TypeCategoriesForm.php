@@ -28,6 +28,16 @@ class TypeCategoriesForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
+  protected function getEditableConfigNames() {
+    return [
+      'fr_node_type_categories.settings',
+    ];
+  }
+
+
+  /**
+   * {@inheritdoc}
+   */
   public function getFormId() {
     return 'type_categories_list_form';
   }
@@ -44,7 +54,7 @@ class TypeCategoriesForm extends ConfigFormBase {
     $form['category_list'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Category List Builder'),
-      '#description' => $this->t('Use this field to generate the list of categories you wish to use to categorize your content types. Please format the list as "key|value" pairs with a vertical pipe between the key and value.'),
+      '#description' => $this->t('<p>Use this field to generate the list of categories you wish to use to categorize your content types.</p><p> IMPORTANT: Please format your list as "key|value" pairs with a vertical pipe between the key and value. The key is the machine name for your category term, should contain only lowercase letters and underscores. The value is the category term itself. Separate the key|value pairs with a comma, and keep them on the same line. <i> For example: apples|Apples, bananas|Bananas, cheese|Cheese, etc.</i></p>'),
       '#default_value' => $config->get('category_list'),
     ];
 
@@ -60,15 +70,6 @@ class TypeCategoriesForm extends ConfigFormBase {
     $config->set('category_list', $form_state->getValue('category_list'));
     $config->save();
     parent::submitForm($form, $form_state);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function getEditableConfigNames() {
-    return [
-      'fr_node_type_categories.settings',
-    ];
   }
 
 }

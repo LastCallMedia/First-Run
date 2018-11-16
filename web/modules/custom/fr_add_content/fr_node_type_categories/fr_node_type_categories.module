@@ -68,7 +68,7 @@ function fr_node_type_categories_form_node_type_form_alter(&$form, FormStateInte
   $form['node_type_category'] = [
     '#type' => 'select',
     '#required' => FALSE,
-    '#options' => FR_CT_CATEGORIES,
+    '#options' => _build_cats_array(),
     '#title' => t('Category'),
     '#weight' => 0,
     '#default_value' => $cat_config,
@@ -94,35 +94,44 @@ function _get_used_categories() {
   $node_types = \Drupal::service('entity_type.manager')->getStorage('node_type')->loadMultiple();
   $categories_in_use = [];
   $user = \Drupal::currentUser();
+  $cat_array = _build_cats_array();
   foreach ($node_types as $type) {
     $type_name = $type->id();
     if ($user->hasPermission('create ' . $type_name . ' content')) {
       $cat_id = $type->getThirdPartySetting('fr_node_type_categories', 'node_type_category');
       if (isset($cat_id)) {
-        $categories_in_use[$cat_id] = FR_CT_CATEGORIES[$cat_id];
+        $categories_in_use[$cat_id] = $cat_array[$cat_id];
       }
       if (is_null($cat_id)) {
         $categories_in_use['uncategorized'] = 'Uncategorized';
       }
     }
   }
-  $categories_in_use = array_intersect(FR_CT_CATEGORIES, $categories_in_use);
+  $categories_in_use = array_intersect($cat_array, $categories_in_use);
   return $categories_in_use;
 }
 
 /**
- * Content type categories.
+ * Create the type categories array from the form input.
  */
-const FR_CT_CATEGORIES = [
-  'test_1' => 'Test 1',
-  'test_2' => 'Test 2',
-  'uncategorized' => 'Uncategorized',
-];
+function _build_cats_array() {
+  $config = \Drupal::config('fr_node_type_categories.settings');
+  $cats_config = $config->get('category_list');
+  $config_array = explode(',', $cats_config);
+
+  $catsArray = [];
+  foreach($config_array as $o) {
+    $exploded = explode('|', $o);
+    $catsArray[trim($exploded[0])] = trim($exploded[1]);
+  }
+  $catsArray['uncategorized'] = 'Uncategorized';
+
+  return $catsArray;
+}
 
 /**
  * Implements hook_preprocess_HOOK().
  */
 function fr_node_type_categories_preprocess_node_add_list(&$variables) {
-  // Categories.
   $variables['categories'] = _get_used_categories();
 }

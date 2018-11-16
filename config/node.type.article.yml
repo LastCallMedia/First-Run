@@ -11,6 +11,7 @@ third_party_settings:
   fr_add_content:
     node_type_live_example: 'http://fr.localhost:8888/admin/structure/types/manage/article?destination=/admin/structure/types'
     node_type_help_link: 'http://fr.localhost:8888/admin/structure/types/manage/article?destination=/admin/structure/types'
+    node_type_long_description: ''
   menu_ui:
     available_menus:
       - main
@@ -18,7 +19,7 @@ third_party_settings:
   first_run_tours:
     article: 0
   fr_node_type_categories:
-    node_type_category: test_2
+    node_type_category: core
 _core:
   default_config_hash: AeW1SEDgb1OTQACAWGhzvMknMYAJlcZu0jljfeU3oso
 name: Article

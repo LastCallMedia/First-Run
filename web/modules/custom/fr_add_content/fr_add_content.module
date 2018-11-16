@@ -211,7 +211,7 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
         ];
       }
 
-      // Todo: make example and help links into render arrays.
+      // Todo: make example and help links with render arrays.
       // Live Example.
       $variables['types'][$type->id()]['live_example'] = UrlHelper::filterBadProtocol($type->getThirdPartySetting('fr_add_content', 'node_type_live_example'));
 
@@ -250,9 +250,10 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
 
       }
 
-      // Type Category.
+      // Type Category. (from Content Type Categories submodule).
       $cat_id = $type->getThirdPartySetting('fr_node_type_categories', 'node_type_category');
-      $variables['types'][$type->id()]['node_type_category'] = (!empty($cat_id)) ? FR_CT_CATEGORIES[$cat_id] : 'Uncategorized';
+      $cat_array = _build_cats_array();
+      $variables['types'][$type->id()]['node_type_category'] = (!empty($cat_id)) ? $cat_array[$cat_id] : 'Uncategorized';
     }
   }
 
