@@ -34,7 +34,6 @@ class TypeCategoriesForm extends ConfigFormBase {
     ];
   }
 
-
   /**
    * {@inheritdoc}
    */

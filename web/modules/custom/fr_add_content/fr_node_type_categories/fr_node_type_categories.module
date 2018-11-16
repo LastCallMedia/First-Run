@@ -120,7 +120,7 @@ function _build_cats_array() {
   $config_array = explode(',', $cats_config);
 
   $catsArray = [];
-  foreach($config_array as $o) {
+  foreach ($config_array as $o) {
     $exploded = explode('|', $o);
     $catsArray[trim($exploded[0])] = trim($exploded[1]);
   }
