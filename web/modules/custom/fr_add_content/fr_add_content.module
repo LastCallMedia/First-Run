@@ -203,7 +203,7 @@ function fr_add_content_preprocess_node_add_list(&$variables) {
 
       // Key Components.
       $key_config = $type->getThirdPartySetting('fr_add_content', 'node_type_long_description');
-      if (isset($key_config)) {
+      if (!empty($key_config)) {
         $variables['types'][$type->id()]['long_description'] = [
           '#title' => 'Key Components',
           '#type' => 'item',
