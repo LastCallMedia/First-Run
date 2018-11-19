@@ -10,6 +10,8 @@ use Drupal\tour\Entity\Tour;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\NodeType;
 use Drupal\content_type_tour\Form\ContentTypeTourForm;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Url;
 
 /**
  * Implements hook_help().
@@ -92,4 +94,29 @@ function content_type_tour_tour_delete($entity) {
       $node_type->setThirdPartySetting('content_type_tour', $ct_machine_name, 0)->save();
     }
   }
+}
+
+/**
+ * Implements hook_entity_operation().
+ */
+function content_type_tour_entity_operation(EntityInterface $entity) {
+  $operations = [];
+  $info = $entity->getEntityType();
+
+  // Add manage tour link if this entity type is the bundle of another and that
+  // type has field UI enabled.
+  if (($bundle_of = $info->getBundleOf()) && \Drupal::entityTypeManager()->getDefinition($bundle_of)->get('field_ui_base_route')) {
+
+    $account = \Drupal::currentUser();
+    if ($account->hasPermission('administer tour')) {
+      $operations['manage-ct-tour'] = [
+        'title' => t('Manage tour'),
+        'weight' => 28,
+        'url' => Url::fromRoute("content_type_tour.tour_form", [
+          $entity->getEntityTypeId() => $entity->id(),
+        ]),
+      ];
+    }
+  }
+  return $operations;
 }

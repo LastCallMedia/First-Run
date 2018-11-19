@@ -4,4 +4,4 @@ content_type_tour.tour_form:
     _form: '\Drupal\content_type_tour\Form\ContentTypeTourForm'
     _title: 'Tour Form'
   requirements:
-    _permission: 'administer content types'
+    _permission: 'administer tour'

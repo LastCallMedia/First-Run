@@ -27,7 +27,7 @@ CONFIGURATION
 ------------
 
  - Permissions
-   * The 'administer content types' permission is required to access the Manage Tour tab.
+   * The 'administer tour' permission is required to access the Manage Tour form. This is a permission defined by the tour_uid module.
  
    * Additional permissions are needed to access the tour_ui and tour modules.
    

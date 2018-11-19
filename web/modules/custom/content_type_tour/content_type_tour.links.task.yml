@@ -1,5 +1,5 @@
 content_type_tour.tour_form:
-  title: 'Manage Tour'
+  title: 'Manage tour'
   route_name: content_type_tour.tour_form
   base_route: entity.node_type.edit_form
   weight: 200
