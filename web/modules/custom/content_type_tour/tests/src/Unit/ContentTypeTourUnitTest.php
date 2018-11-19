@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\content_type_tour\Unit;
 
-use Drupal\content_type_tour\Form\TourForm;
+use Drupal\content_type_tour\Form\ContentTypeTourForm;
 use Drupal\Tests\UnitTestCase;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityManager;
@@ -30,7 +30,7 @@ class ContentTypeTourUnitTest extends UnitTestCase {
     $this->entityTypeManager = $this->prophesize(EntityTypeManagerInterface::class);
     $this->entityFieldManager = $this->prophesize(EntityFieldManagerInterface::class);
 
-    $this->tourForm = new TourForm(
+    $this->tourForm = new ContentTypeTourForm(
       $this->container->reveal(),
       $this->entityManager->reveal(),
       $this->entityTypeManager->reveal(),

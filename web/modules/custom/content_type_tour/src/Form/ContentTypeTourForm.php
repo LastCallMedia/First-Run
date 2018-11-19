@@ -11,9 +11,9 @@ use Drupal\Core\Entity\EntityManager;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 
 /**
- * Class TourForm.
+ * Class ContentTypeTourForm.
  */
-class TourForm extends ConfigFormBase {
+class ContentTypeTourForm extends ConfigFormBase {
 
   const TOUR_ID_PREFIX = 'node-add-';
 
@@ -30,7 +30,7 @@ class TourForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'tour_form';
+    return 'content_type_tour_form';
   }
 
   /**
@@ -103,7 +103,7 @@ class TourForm extends ConfigFormBase {
     $tips = [];
     if (isset($tour_tips)) {
       foreach ($tour_tips as $tip) {
-        $tips[] = str_replace([TourForm::TOUR_ID_PREFIX, '-'], ['', '_'], $tip->id());
+        $tips[] = str_replace([ContentTypeTourForm::TOUR_ID_PREFIX, '-'], ['', '_'], $tip->id());
       }
     }
 
@@ -155,7 +155,7 @@ class TourForm extends ConfigFormBase {
       $selected_field_info[] = [
         'label' => $label,
         'data_id' => $this->hyphenate($value),
-        'tip_id' => TourForm::TOUR_ID_PREFIX . $this->hyphenate($value),
+        'tip_id' => ContentTypeTourForm::TOUR_ID_PREFIX . $this->hyphenate($value),
         'description' => $fields[$value]->getDescription(),
       ];
     }
