@@ -1,6 +1,6 @@
 name: 'Welcome'
 type: module
-description: 'Provides a welcome page.'
+description: 'This module provides a lightweight welcome page to help create a better UX for administrative or authenticated users.'
 core: 8.x
 package: 'Custom'
 dependencies:

@@ -19,9 +19,12 @@ function welcome_help($route_name, RouteMatchInterface $route_match) {
     case 'help.page.welcome':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('Provides a welcome page.') . '</p>';
+      $output .= '<p>' . t('The Welcome module provides a lightweight welcome page to help create a better UX for administrative or authenticated users.') . '</p>';
+      $output .= '<h3>' . t('Uses') . '</h3>';
+      $output .= '<p>' . t('This module supplies a welcome page the user is redirected to on login. This page contains a whats new section 
+        for the most recent site changes, a view of content created by the current logged-on user, and a help and support 
+        section with links and information about the supporting web agency.') . '</p>';
       return $output;
-
     default:
   }
 }
