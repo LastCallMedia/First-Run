@@ -50,11 +50,14 @@ function welcome_theme() {
  * Redirect users to the welcome page on successful login.
  */
 function welcome_user_login(AccountInterface $account) {
-  $url = Url::fromRoute('welcome.welcome_home')->toString();
+  if (!$account->hasPermission('access welcome page')) {
+    return;
+  }
 
   // If there are no password reset parameters in the URL, then bypass the user
-  // edit page and go straight to my-work.
+  // edit page and go straight to welcome page.
   if (\Drupal::service('current_route_match')->getRouteName() !== 'user.reset.login') {
+    $url = Url::fromRoute('welcome.welcome_home')->toString();
     return \Drupal::requestStack()->getCurrentRequest()->query->set('destination', $url);
   }
 }
@@ -63,9 +66,14 @@ function welcome_user_login(AccountInterface $account) {
  * Implements hook_form_BASE_FORM_ID_alter().
  *
  * If a user logs in with a password reset, send them to the user edit form to
- * reset their password first, then redirect to my-work.
+ * reset their password first, then redirect to welcome.
  */
 function welcome_form_user_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $user = \Drupal::currentUser();
+  if (!$user->hasPermission('access welcome page')) {
+    return;
+  }
+
   $form['actions']['submit']['#submit'][] = '_welcome_user_redirect';
 }
 
