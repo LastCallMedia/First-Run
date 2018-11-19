@@ -1,8 +1,0 @@
-name: First Run Tours
-type: module
-description: Custom Tour Module
-core: 8.x
-package: Custom
-dependencies:
-  - drupal:tour
-  - tour_ui:tour_ui
