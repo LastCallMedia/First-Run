@@ -20,7 +20,15 @@ function content_type_tour_help($route_name, RouteMatchInterface $route_match) {
     case 'help.page.content_type_tour':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('Extends the Tour module to create tours specific to /node/add/{node_type} pages') . '</p>';
+      $output .= '<p>' . t('The Content Type Tour module enhances tour functionality for the /node/add/{content_type} pages.') . '</p>';
+      $output .= '<h3>' . t('Uses') . '</h3>';
+      $output .= t('The Content Type Tour module enhances the usability of the tour_ui module and provides a quick method to create a tour for the 
+        /node/add/{content_type} pages. It aims to accomplish this by providing several abilities. Firstly by enabling this module 
+        the user has the ability to create unique tours for each content_type which isn\'t a standard tour option as each 
+        /node/add/{content_type} page shares the same route of \'node.add\'. Secondly this module makes it much easier for the user 
+        to add tour tips for each field. When on the Manage Tour tab provided by this module, the user can select which fields 
+        on the content_type to create tips for. Each tour tip is initially populated with the help text that is entered for each 
+        field and can then be adjusted if needed through the tour_ui page.');
       return $output;
 
     default:

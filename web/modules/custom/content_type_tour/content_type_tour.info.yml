@@ -1,6 +1,6 @@
 name: Content Type Tour
 type: module
-description: Custom Tour Module that enhances tour functionality for the /node/add/{node_type} page.
+description: The Content Type Tour module enhances tour functionality for the /node/add/{content_type} pages.
 core: 8.x
 package: Custom
 dependencies:
