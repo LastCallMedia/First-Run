@@ -69,7 +69,7 @@ class ContentTypeTourFunctionalTest extends BrowserTestBase {
       'tour_enabled' => TRUE,
     ];
 
-    $this->drupalPostForm($path, $edit, 'Save configuration', [], 'tour-form');
+    $this->drupalPostForm($path, $edit, 'Save configuration', [], 'content-type-tour-form');
 
     $this->drupalGet('admin/config/user-interface/tour');
     $this->assertSession()->statusCodeEquals(200);
