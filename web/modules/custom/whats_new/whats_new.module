@@ -16,7 +16,12 @@ function whats_new_help($route_name, RouteMatchInterface $route_match) {
     case 'help.page.whats_new':
       $output = '';
       $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('Contains a changelog.yml file to track site changes, provides a block and page to display this.') . '</p>';
+      $output .= '<p>' . t('The Whats New module provides a conduit for developers to directly communicate with users regarding new site features, module updates, or other useful information.') . '</p>';
+      $output .= '<h3>' . t('Uses') . '</h3>';
+      $output .= '<p>' . t('A page is provided at /admin/whats-new that displays this developer 
+        communicated information and a Whats New block is provided that displays the most recent updates. The number 
+        of updates displayed by the block is adjustable. This communication is achieved with a single yaml file that the 
+        developer updates to communicate new and relevant site changes.') . '</p>';
       return $output;
 
     default:

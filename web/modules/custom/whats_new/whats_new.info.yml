@@ -1,5 +1,5 @@
 name: 'Whats New'
 type: module
-description: 'Contains a changelog.yml file to track site changes, provides a block and page to display this.'
+description: 'This module provides a conduit for developers to directly communicate with users.'
 core: 8.x
 package: 'Custom'
