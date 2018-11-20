@@ -1,0 +1,8 @@
+name: 'Welcome Page'
+type: module
+description: 'This module provides a lightweight welcome page to help create a better UX for administrative or authenticated users.'
+core: 8.x
+package: 'Custom'
+dependencies:
+  - whats_new:whats_new
+  - drupal:views

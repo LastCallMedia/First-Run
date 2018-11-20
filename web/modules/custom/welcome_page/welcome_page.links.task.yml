@@ -1,0 +1,10 @@
+welcome_page.welcome_home:
+  title: 'Welcome'
+  route_name: welcome_page.welcome_home
+  base_route: welcome_page.welcome_home
+  weight: 0
+welcome_page.welcome_config_form:
+  title: 'Settings'
+  route_name: welcome_page.welcome_config_form
+  base_route: welcome_page.welcome_home
+  weight: 0
