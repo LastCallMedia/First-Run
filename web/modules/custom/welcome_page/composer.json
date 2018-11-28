@@ -1,0 +1,22 @@
+{
+  "name": "drupal/welcome_page",
+  "description": "This module provides a lightweight welcome page to help create a better UX for administrative or authenticated users.",
+  "type": "drupal-module",
+  "keywords": ["Drupal", "Welcome"],
+  "homepage": "https://www.drupal.org/sandbox/mariodan/3015130",
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "MarioDan",
+      "homepage": "https://www.drupal.org/u/mariodan",
+      "role": "Maintainer"
+    }
+  ],
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/3015130",
+    "source": "https://cgit.drupalcode.org/sandbox-mariodan-3015130"
+  },
+  "require": {
+    "drupal/core": "~8"
+  }
+}

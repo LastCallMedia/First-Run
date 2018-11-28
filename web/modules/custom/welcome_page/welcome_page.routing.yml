@@ -1,0 +1,15 @@
+welcome_page.welcome_home:
+  path: '/admin/welcome'
+  defaults:
+    _controller: '\Drupal\welcome_page\Controller\WelcomePageController::content'
+    _title: 'Welcome'
+  requirements:
+    _permission: 'access welcome page'
+
+welcome_page.welcome_config_form:
+  path: '/admin/welcome/welcome_settings'
+  defaults:
+    _form: '\Drupal\welcome_page\Form\WelcomePageConfigForm'
+    _title: 'Welcome Settings'
+  requirements:
+    _permission: 'administer welcome page'

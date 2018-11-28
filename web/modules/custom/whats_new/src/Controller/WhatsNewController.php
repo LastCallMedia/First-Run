@@ -36,9 +36,9 @@ class WhatsNewController extends ControllerBase {
    */
   public function getChangelogData($quantity = NULL) {
     $file_path = DRUPAL_ROOT . '/whats_new.yml';
-    $file_contents = file_get_contents($file_path);
+    $file_contents = @file_get_contents($file_path);
 
-    if ($file_contents == FALSE) {
+    if ($file_contents === FALSE) {
       $data = [
         date('Y-m-d') => [
           ['name' => 'Please create a whats_new.yml file at the Drupal root.'],

@@ -1,0 +1,22 @@
+{
+  "name": "drupal/content_type_tour",
+  "description": "The Content Type Tour module enhances tour functionality for the /node/add/{content_type} pages.",
+  "type": "drupal-module",
+  "keywords": ["Drupal", "Tour"],
+  "homepage": "https://www.drupal.org/sandbox/mariodan/3015086",
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "MarioDan",
+      "homepage": "https://www.drupal.org/u/mariodan",
+      "role": "Maintainer"
+    }
+  ],
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/3015086",
+    "source": "https://cgit.drupalcode.org/sandbox-mariodan-3015086"
+  },
+  "require": {
+    "drupal/core": "~8"
+  }
+}

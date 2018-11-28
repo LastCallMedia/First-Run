@@ -1,7 +1,0 @@
-first_run_tours.tours_form:
-  path: '/admin/structure/types/manage/{node_type}/tours'
-  defaults:
-    _form: '\Drupal\first_run_tours\Form\ToursForm'
-    _title: 'Tours Form'
-  requirements:
-    _permission: 'administer site configuration'

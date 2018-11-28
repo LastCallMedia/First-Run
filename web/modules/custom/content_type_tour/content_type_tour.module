@@ -1,0 +1,122 @@
+<?php
+
+/**
+ * @file
+ * Contains content_type_tour.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\tour\Entity\Tour;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Entity\NodeType;
+use Drupal\content_type_tour\Form\ContentTypeTourForm;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_help().
+ */
+function content_type_tour_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the content_type_tour module.
+    case 'help.page.content_type_tour':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('The Content Type Tour module enhances tour functionality for the /node/add/{content_type} pages.') . '</p>';
+      $output .= '<h3>' . t('Uses') . '</h3>';
+      $output .= '<p>' . t('The Content Type Tour module enhances the usability of the tour_ui module and provides a quick method to create a tour for the 
+        /node/add/{content_type} pages. It aims to accomplish this by providing several abilities. Firstly by enabling this module 
+        the user has the ability to create unique tours for each content_type which isn\'t a standard tour option as each 
+        /node/add/{content_type} page shares the same route of \'node.add\'. Secondly this module makes it much easier for the user 
+        to add tour tips for each field. When on the Manage Tour tab provided by this module, the user can select which fields 
+        on the content_type to create tips for. Each tour tip is initially populated with the help text that is entered for each 
+        field and can then be adjusted if needed through the tour_ui page.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_page_bottom().
+ */
+function content_type_tour_page_bottom(array &$page_bottom) {
+  $request = \Drupal::service('request_stack')->getCurrentRequest()->get('_route_params');
+  $route_name = \Drupal::routeMatch()->getRouteName();
+
+  // Must be on /node/add/{nodetype} page.
+  if ($route_name !== 'node.add') {
+    return;
+  }
+
+  $ct_machine_name = $request['node_type']->get('type');
+  $node_type = NodeType::load($ct_machine_name);
+
+  // "Enable tour" checkbox must be checked.
+  if ($node_type == NULL || $node_type->getThirdPartySetting('content_type_tour', $ct_machine_name) == 0) {
+    return;
+  }
+
+  if (isset($ct_machine_name)) {
+    $tour_id = ContentTypeTourForm::TOUR_ID_PREFIX . str_replace('_', '-', $ct_machine_name);
+    $results = \Drupal::entityQuery('tour')
+      ->condition('id', $tour_id)
+      ->execute();
+
+    if (!empty($results) && $tours = Tour::loadMultiple(array_keys($results))) {
+      if (!empty($tours)) {
+        $view_builder = \Drupal::entityTypeManager()->getViewBuilder('tour');
+        $page_bottom['tour'] = $view_builder->viewMultiple($tours, 'full');
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function content_type_tour_form_tour_form_alter(&$form, FormStateInterface $form_state) {
+  if ($form_state->getFormObject()->getEntity()->get('module') == 'content_type_tour') {
+    $form['module']['#disabled'] = 'disabled';
+    $form['routes']['#disabled'] = 'disabled';
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_delete() for tour entities.
+ */
+function content_type_tour_tour_delete($entity) {
+  if ($entity->getModule() == 'content_type_tour' && $entity->getEntityTypeId() == 'tour') {
+    $ct_machine_name = str_replace([ContentTypeTourForm::TOUR_ID_PREFIX, '-'], ['', '_'], $entity->id());
+    $node_type = NodeType::load($ct_machine_name);
+
+    if ($node_type !== NULL && $node_type->getThirdPartySetting('content_type_tour', $ct_machine_name)) {
+      $node_type->setThirdPartySetting('content_type_tour', $ct_machine_name, 0)->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_operation().
+ */
+function content_type_tour_entity_operation(EntityInterface $entity) {
+  $operations = [];
+  $info = $entity->getEntityType();
+
+  // Add manage tour link if this entity type is the bundle of another and that
+  // type has field UI enabled.
+  if (($bundle_of = $info->getBundleOf()) && \Drupal::entityTypeManager()->getDefinition($bundle_of)->get('field_ui_base_route')) {
+
+    $account = \Drupal::currentUser();
+    if ($account->hasPermission('administer tour')) {
+      $operations['manage-ct-tour'] = [
+        'title' => t('Manage tour'),
+        'weight' => 28,
+        'url' => Url::fromRoute("content_type_tour.tour_form", [
+          $entity->getEntityTypeId() => $entity->id(),
+        ]),
+      ];
+    }
+  }
+  return $operations;
+}

@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * @file
+ * Contains welcome_page.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_help().
+ */
+function welcome_page_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the welcome_page module.
+    case 'help.page.welcome_page':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('The Welcome Page module provides a lightweight welcome page to help create a better UX for administrative or authenticated users.') . '</p>';
+      $output .= '<h3>' . t('Uses') . '</h3>';
+      $output .= '<p>' . t('This module supplies a welcome page the user is redirected to on login. This page contains a whats new section 
+        for the most recent site changes, a view of content created by the current logged-on user, and a help and support 
+        section with links and information about the supporting web agency.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function welcome_page_theme() {
+  return [
+    'welcome_page' => [
+      'variables' => [
+        'whats_new' => NULL,
+        'recently_added_content' => NULL,
+        'support' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_user_login().
+ *
+ * Redirect users to the welcome page on successful login.
+ */
+function welcome_page_user_login(AccountInterface $account) {
+  if (!$account->hasPermission('access welcome page')) {
+    return;
+  }
+
+  // If there are no password reset parameters in the URL, then bypass the user
+  // edit page and go straight to welcome page.
+  if (\Drupal::service('current_route_match')->getRouteName() !== 'user.reset.login') {
+    $url = Url::fromRoute('welcome_page.welcome_home')->toString();
+    return \Drupal::requestStack()->getCurrentRequest()->query->set('destination', $url);
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ *
+ * If a user logs in with a password reset, send them to the user edit form to
+ * reset their password first, then redirect to welcome.
+ */
+function welcome_page_form_user_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $user = \Drupal::currentUser();
+  if (!$user->hasPermission('access welcome page')) {
+    return;
+  }
+
+  $form['actions']['submit']['#submit'][] = '_welcome_page_user_redirect';
+}
+
+/**
+ * Custom submit handler to redirect users to welcome page.
+ */
+function _welcome_page_user_redirect(&$form, FormStateInterface $form_state) {
+  // Redirect from user form on save only when user first logs in.
+  if (\Drupal::request()->query->has('pass-reset-token')) {
+    $form_state->setRedirect('welcome_page.welcome_home');
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function welcome_page_preprocess_html(&$variables) {
+  $current_route = \Drupal::routeMatch()->getRouteName();
+
+  if ($current_route == 'welcome_page.welcome_home') {
+    $variables['attributes']['class'][] = 'welcome-home';
+  }
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function welcome_page_page_attachments(array &$page) {
+  if (\Drupal::service('current_route_match')->getRouteName() == 'welcome_page.welcome_home') {
+    $page['#attached']['library'][] = 'welcome_page/welcome_page.styles';
+  }
+}
