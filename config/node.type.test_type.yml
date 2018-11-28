@@ -13,8 +13,8 @@ third_party_settings:
       - main
     parent: 'main:'
   fr_add_content:
-    node_type_live_example: 'http://fr.localhost:8888/admin/structure/types/manage/test_type'
-    node_type_help_link: 'http://fr.localhost:8888/admin/structure/types/manage/test_type'
+    node_type_live_example: 'https://www.drupal.org/project/schema_metatag/issues/2958936'
+    node_type_help_link: /admin/config
     node_type_long_description: "<ul>\r\n<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>\r\n<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>\r\n<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>\r\n</ul>"
   first_run_tours:
     test_type: 1
