@@ -137,10 +137,10 @@ function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $fo
       [
         '%front' => '<front>',
         '%add-node' => '/node/add',
-        '%url' => 'https://example.com']),
+        '%url' => 'https://example.com',
+      ]),
     '#default_value' => $live_example_config,
-    '#element_validate' => ['_fr_add_content_url_validation'
-    ],
+    '#element_validate' => ['_fr_add_content_url_validation'],
     '#maxlength' => 255,
     '#weight' => 0,
     '#size' => 30,
@@ -153,7 +153,7 @@ function fr_add_content_form_node_type_form_alter(&$form, FormStateInterface $fo
       [
         '%front' => '<front>',
         '%add-node' => '/node/add',
-        '%url' => 'http://example.com'
+        '%url' => 'http://example.com',
       ]),
     '#default_value' => $help_link_config,
     '#element_validate' => ['_fr_add_content_url_validation'],
