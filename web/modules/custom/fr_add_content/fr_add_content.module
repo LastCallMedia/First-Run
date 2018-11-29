@@ -68,6 +68,8 @@ function fr_add_content_css_alter(&$css, $assets) {
 }
 
 /**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ *
  * Add custom theme template for node add list.
  */
 function fr_add_content_theme_suggestions_node_add_list_alter(array &$suggestions, array $variables) {
@@ -75,6 +77,8 @@ function fr_add_content_theme_suggestions_node_add_list_alter(array &$suggestion
 }
 
 /**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ *
  * Add custom theme template for node add/edit page.
  */
 function fr_add_content_theme_suggestions_page_alter(array &$suggestions, array $variables) {

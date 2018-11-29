@@ -41,6 +41,11 @@ function fr_node_type_categories_theme($existing, $type, $theme, $path) {
       'base hook' => 'node_add_list',
     ],
 
+    'block__add_content_search' => [
+      'template' => 'block--add-content-search',
+      'base hook' => 'block',
+    ],
+
   ];
 
 }
