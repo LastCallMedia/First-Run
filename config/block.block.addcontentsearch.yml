@@ -1,0 +1,26 @@
+uuid: 7a99e7ad-e03a-4655-b71f-0355bc58cf41
+langcode: en
+status: true
+dependencies:
+  module:
+    - fr_node_type_categories
+    - system
+  theme:
+    - seven
+id: addcontentsearch
+theme: seven
+region: content
+weight: -4
+provider: null
+plugin: add_content_search
+settings:
+  id: add_content_search
+  label: 'Add Content Search'
+  provider: fr_node_type_categories
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: /node/add
+    negate: false
+    context_mapping: {  }
