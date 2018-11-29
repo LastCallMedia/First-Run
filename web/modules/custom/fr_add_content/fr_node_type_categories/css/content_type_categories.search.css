@@ -1,0 +1,44 @@
+/**
+ *@file
+ * Styles for custom search block that appears on the top of the node/add page.
+ */
+#block-addcontentsearch {
+  margin-bottom: 2.5em;
+}
+#block-addcontentsearch #top {
+  display: block;
+  margin-top: -141px;
+  padding-top: 141px;
+}
+
+#block-node-add-search {
+  position: relative;
+  z-index: 99;
+}
+.search-bar-wrapper {
+  display: inline-flex;
+}
+
+.category-jump-menu {
+  margin-bottom: 1.5rem;
+}
+
+.category-jump-menu .category-jump-links {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+}
+.category-jump-menu .category-jump-links li {
+  flex-shrink: 0;
+  list-style-type: none;
+  margin-left: 0;
+}
+.category-jump-menu .category-jump-links li {
+  margin-right: 1.5em;
+}
+
+@media only screen and (min-width: 975px) {
+  .search-bar-wrapper {
+    width: 45%;
+  }
+}

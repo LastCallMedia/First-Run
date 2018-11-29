@@ -30,7 +30,6 @@
 
 {% block content %}
   <div {{ attributes }}>
-    <div id="block-node-add-search">
       <a id="top"></a>
 
       <div class="content-wrapper category-jump-menu">
@@ -39,10 +38,12 @@
 
       <div class="content-type-search">
         <span class="search-bar-wrapper">
-          <input type="text" id="content-type-search" name="name" size="30" maxlength="128" class="form-text" placeholder="Filter by keyword">
+          <input type="text" id="content-type-search" name="name" size="30" maxlength="128" class="form-search" placeholder="Filter by name or description">
         </span>
       </div>
+    <div id="edit-text--description" class="description">
+      Enter a part of the content type name or description
+    </div>
 
     </div>
-  </div>
 {% endblock %}
