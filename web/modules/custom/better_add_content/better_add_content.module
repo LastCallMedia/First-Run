@@ -288,10 +288,11 @@ function better_add_content_preprocess_node_add_list(&$variables) {
 
       // Type Category. (from Content Type Categories submodule).
       $moduleHandler = \Drupal::service('module_handler');
-      if ($moduleHandler->moduleExists('content_type_categories')){
+      if ($moduleHandler->moduleExists('content_type_categories')) {
         $cat_id = $type->getThirdPartySetting('content_type_categories', 'node_type_category');
         $cat_array = _build_cats_array();
-        $variables['types'][$type->id()]['node_type_category'] = (!empty($cat_id)) ? $cat_array[$cat_id] : 'Uncategorized';      }
+        $variables['types'][$type->id()]['node_type_category'] = (!empty($cat_id)) ? $cat_array[$cat_id] : 'Uncategorized';
+      }
     }
   }
 
