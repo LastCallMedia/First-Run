@@ -1,0 +1,71 @@
+{#
+/**
+ * @file
+ * This template overrides Seven's theme implementation to list node types available for adding content.
+ *
+ * Available variables:
+ * - types: List of content types. Each content type contains:
+ *   - url: Path to the add content of this type page.
+ *   - label: The title of this type of content.
+ *   - description: Description of this type of content.
+ *
+ * @see template_preprocess_node_add_list()
+ * @see seven_preprocess_node_add_list()
+ */
+#}
+{% if content %}
+
+  <ul class="admin-list">
+    {% for type in types %}
+      <li class="clearfix admin-list-item">
+        <div class="ct-item-container panel">
+          {% if type.image %}
+            <div class="col ct-thumbnail">{{ type.image }}</div>
+          {% else %}
+            <div class="col ct-thumbnail"><img src="/modules/custom/better_add_content/images/icon_industry_media.svg"></div>
+          {% endif %}
+
+          <div class="col details-container">
+            <h3 class="ct-label"><a href="{{ type.url }}">{{ type.label }}</a></h3>
+            {% if type.live_example or type.description %}
+              <div class="ct-details-links">
+                {% if type.tour %}
+                  {{ type.tour }}
+                {% endif %}
+                {% if type.help_link %}
+                  <a href="{{ type.help_link }}" class="ct-help ct-details-link">View help article</a>
+                {% endif %}
+                {% if type.live_example %}
+                  <a href="{{ type.live_example }}" class="ct-details-link live-example">View live example</a>
+                {% endif %}
+
+              </div>
+            {% endif %}
+
+            {% if type.description %}
+              <div class="description">{{ type.description }}</div>
+            {% endif %}
+
+            {% if type.long_description %}
+              <div class="ct-key-components">{{ type.long_description}}</div>
+            {% endif %}
+          </div>
+
+          <div class="col actions">
+            <a href="{{ type.url }}" class="button button--add-content button--primary">Add new {{ type.label }}</a>
+          </div>
+
+        </div>
+      </li>
+
+    {% endfor %}
+  </ul>
+
+{% else %}
+  <p>
+    {% set create_content = path('node.type_add') %}
+    {% trans %}
+      You have not created any content types yet. Go to the <a href="{{ create_content }}">content type creation page</a> to add a new content type.
+    {% endtrans %}
+  </p>
+{% endif %}

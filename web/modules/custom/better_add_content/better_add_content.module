@@ -1,0 +1,298 @@
+<?php
+
+/**
+ * @file
+ * Contains better_add_content.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
+use Drupal\node\Entity\NodeType;
+use Drupal\file\Entity\File;
+use Drupal\Component\Utility\Xss;
+use Drupal\Component\Utility\UrlHelper;
+
+/**
+ * Implements hook_help().
+ */
+function better_add_content_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.better_add_content':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Adds a custom add content page that enhances the node add list with extra information.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function better_add_content_theme($existing, $type, $theme, $path) {
+  return [
+    'better_add_content__node_add_list' => [
+      'template' => 'better-add-content--node-add-list',
+      'base hook' => 'node_add_list',
+    ],
+    'better_add_content__page__node__add' => [
+      'template' => 'better-add-content--page--node--add',
+      'render-element' => 'page',
+      'base hook' => 'page',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function better_add_content_page_attachments(array &$page) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name == 'node.add_page') {
+    $page['#attached']['library'][] = 'better_add_content/better_add_content.node-add-list';
+  }
+}
+
+/**
+ * Implements hook_css_alter().
+ *
+ * Disable Seven theme's stylesheet for node-add-list.
+ */
+function better_add_content_css_alter(&$css, $assets) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name == 'node.add_page') {
+    unset($css[drupal_get_path('theme', 'seven') . '/css/components/admin-list.css']);
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ *
+ * Add custom theme template for node add list.
+ */
+function better_add_content_theme_suggestions_node_add_list_alter(array &$suggestions, array $variables) {
+  $suggestions[] = 'better_add_content__node_add_list';
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ *
+ * Add custom theme template for node add/edit page.
+ */
+function better_add_content_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name == 'node.add_page') {
+    $suggestions[] = 'better_add_content__page__node__add';
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function better_add_content_preprocess_page(&$variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name == 'node.add_page') {
+    $config = \Drupal::configFactory()->get('better_add_content.settings');
+    $intro_text = $config->get('intro_text');
+
+    $variables['page']['fr_content']['intro_text'] = [
+      '#markup' => Xss::filterAdmin($intro_text),
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => [
+          'add-content-intro-text',
+        ],
+      ],
+    ];
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function better_add_content_form_node_type_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  /** @var \Drupal\node\NodeTypeForm $node_type_form */
+  $node_type_form = $form_state->getFormObject();
+  /** @var \Drupal\node\Entity\NodeType $node_type */
+  $node_type = $node_type_form->getEntity();
+
+  $long_description_config = $node_type->getThirdPartySetting('better_add_content', 'node_type_long_description', NULL);
+  $live_example_config = $node_type->getThirdPartySetting('better_add_content', 'node_type_live_example', NULL);
+  $help_link_config = $node_type->getThirdPartySetting('better_add_content', 'node_type_help_link', NULL);
+  $thumbnail_config = $node_type->getThirdPartySetting('better_add_content', 'node_type_thumbnail', NULL);
+
+  $form['description']['#weight'] = 0;
+
+  $form['node_type_long_description'] = [
+    '#type' => 'textarea',
+    '#title' => t('Key Components'),
+    '#default_value' => $long_description_config,
+    '#weight' => 0,
+
+  ];
+
+  $form['node_type_live_example'] = [
+    '#type' => 'textfield',
+    '#title' => t('Link to live example'),
+    '#description' => t('Enter an internal path such as %add-node or an external URL such as %url. Enter %front to link to the front page.',
+      [
+        '%front' => '<front>',
+        '%add-node' => '/node/add',
+        '%url' => 'https://example.com',
+      ]),
+    '#default_value' => $live_example_config,
+    '#element_validate' => ['_better_add_content_url_validation'],
+    '#maxlength' => 255,
+    '#weight' => 0,
+    '#size' => 30,
+  ];
+
+  $form['node_type_help_link'] = [
+    '#type' => 'textfield',
+    '#title' => t('Link to help article'),
+    '#description' => t('Enter an internal path such as %add-node or an external URL such as %url. Enter %front to link to the front page.',
+      [
+        '%front' => '<front>',
+        '%add-node' => '/node/add',
+        '%url' => 'http://example.com',
+      ]),
+    '#default_value' => $help_link_config,
+    '#element_validate' => ['_better_add_content_url_validation'],
+    '#weight' => 0,
+    '#maxlength' => 255,
+    '#size' => 30,
+  ];
+
+  $form['node_type_thumbnail'] = [
+    '#type' => 'managed_file',
+    '#title' => t('Thumbnail'),
+    '#upload_validators' => [
+      'file_validate_is_image'      => [],
+      'file_validate_extensions' => ['gif png jpg jpeg'],
+      'file_validate_size' => [25600000],
+    ],
+    '#theme' => 'image_widget',
+    '#preview_image_style' => 'medium',
+    '#upload_location' => 'public://node_type_thumbnail',
+    '#required' => FALSE,
+    '#default_value' => $thumbnail_config,
+    '#weight' => 0,
+  ];
+
+  $form['#entity_builders'][] = '_better_add_content_node_type_form_builder';
+
+}
+
+/**
+ * Entity form builder for the node type edit form.
+ */
+function _better_add_content_node_type_form_builder($entity_type, NodeType $node_type, &$form, FormStateInterface $form_state) {
+
+  $node_type->setThirdPartySetting('better_add_content', 'node_type_long_description', $form_state->getValue('node_type_long_description'));
+  $node_type->setThirdPartySetting('better_add_content', 'node_type_live_example', $form_state->getValue('node_type_live_example'));
+  $node_type->setThirdPartySetting('better_add_content', 'node_type_help_link', $form_state->getValue('node_type_help_link'));
+  if ($form_state->getValue('node_type_thumbnail')) {
+    $node_type->setThirdPartySetting('better_add_content', 'node_type_thumbnail', $form_state->getValue('node_type_thumbnail'));
+  }
+  else {
+    $node_type->unsetThirdPartySetting('better_add_content', 'node_type_thumbnail');
+  }
+
+  if ($image = $form_state->getValue('node_type_thumbnail')) {
+    if (!empty($image['fids'][0]) && $file = File::load($image['fids'][0])) {
+      $file->setPermanent();
+      $file->save();
+    }
+  };
+
+}
+
+/**
+ * Custom '#element_validate' callback for the link url fields.
+ *
+ * @param array $element
+ *   Form element to validate.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Form state.
+ */
+function _better_add_content_url_validation(array &$element, FormStateInterface $form_state) {
+  $path = $element['#value'];
+  $is_internal = \Drupal::service('path.validator')->isValid($path);
+  $is_external = UrlHelper::isValid($path);
+
+  if (!empty($path) && (!$is_external || !$is_internal)) {
+    $form_state->setError($element, t('The path %path is invalid. Please see the field description for a valid example.', ['%path' => $element['#value']]));
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function better_add_content_preprocess_node_add_list(&$variables) {
+  if (!empty($variables['content'])) {
+    foreach ($variables['content'] as $type) {
+
+      $type_id = $variables['types'][$type->id()]['type'];
+
+      // Key Components.
+      $key_config = $type->getThirdPartySetting('better_add_content', 'node_type_long_description');
+      if (!empty($key_config)) {
+        $variables['types'][$type->id()]['long_description'] = [
+          '#title' => 'Key Components',
+          '#type' => 'item',
+          '#markup' => Xss::filterAdmin($key_config),
+        ];
+      }
+
+      // Todo: make example and help links with render arrays.
+      // Live Example.
+      $variables['types'][$type->id()]['live_example'] = UrlHelper::filterBadProtocol($type->getThirdPartySetting('better_add_content', 'node_type_live_example'));
+
+      // Help Link.
+      $variables['types'][$type->id()]['help_link'] = UrlHelper::filterBadProtocol($type->getThirdPartySetting('better_add_content', 'node_type_help_link'));
+
+      // Thumbnail image.
+      $thumb_fid = $type->getThirdPartySetting('better_add_content', 'node_type_thumbnail');
+      if (!is_null($thumb_fid)) {
+        $image = File::load($thumb_fid[0]);
+
+        if ($image) {
+          $variables['types'][$type->id()]['image'] = [
+            '#theme' => 'image_style',
+            '#style_name' => 'large_thumbnail',
+            '#uri' => $image->getFileUri(),
+            '#alt' => 'Thumbnail image of the ' . $type_id . ' content type',
+          ];
+        }
+      }
+
+      // Optional Tour Link (depends on FR Tour module.)
+      $tour_config = $type->getThirdPartySetting('first_run_tours', $type_id);
+      if (($tour_config === 1)) {
+        $option = [
+          'query' => ['tour' => 1],
+        ];
+        $variables['types'][$type->id()]['tour'] = [
+          '#type' => 'link',
+          '#title' => t('Start with a tour'),
+          '#url' => Url::fromRoute('node.add', ['node_type' => $type_id], $option),
+          '#attributes' => [
+            'class' => ['ct-details-link ct-tour'],
+          ],
+        ];
+
+      }
+
+      // Type Category. (from Content Type Categories submodule).
+      $moduleHandler = \Drupal::service('module_handler');
+      if ($moduleHandler->moduleExists('content_type_categories')){
+        $cat_id = $type->getThirdPartySetting('content_type_categories', 'node_type_category');
+        $cat_array = _build_cats_array();
+        $variables['types'][$type->id()]['node_type_category'] = (!empty($cat_id)) ? $cat_array[$cat_id] : 'Uncategorized';      }
+    }
+  }
+
+}

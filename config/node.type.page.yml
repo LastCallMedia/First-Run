@@ -1,22 +1,7 @@
-uuid: 2e6dda49-2042-4d9c-bf89-05111fb51194
+uuid: 04cb6cae-8927-4e38-b8b3-4f97e1d91b66
 langcode: en
 status: true
-dependencies:
-  module:
-    - fr_add_content
-    - fr_node_type_categories
-    - menu_ui
-third_party_settings:
-  fr_add_content:
-    node_type_live_example: ''
-    node_type_help_link: ''
-    node_type_long_description: ''
-  menu_ui:
-    available_menus:
-      - main
-    parent: 'main:'
-  fr_node_type_categories:
-    node_type_category: core
+dependencies: {  }
 _core:
   default_config_hash: KuyA4NHPXcmKAjRtwa0vQc2ZcyrUJy6IlS2TAyMNRbc
 name: 'Basic page'

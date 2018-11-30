@@ -1,0 +1,14 @@
+#Sets up a group on the config page for Better Add Content Page settings.
+better_add_content.configuration:
+  title: 'Better Add Content Page'
+  route_name: better_add_content.configuration
+  parent: system.admin_config
+  description: 'Configure functionality for Better Add Content Page'
+  position: right
+  weight: -100
+
+#Configuration to create link to add content intro text form.
+better_add_content.intro_block_form:
+  title: "Add Content Page Settings"
+  route_name: better_add_content.intro_block_form
+  parent: better_add_content.configuration

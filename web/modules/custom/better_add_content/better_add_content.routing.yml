@@ -1,0 +1,18 @@
+#Route for Better Add Content main config page.
+better_add_content.configuration:
+  path: '/admin/config/better-add-content'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Better Add Content'
+  requirements:
+    _permission: 'administer site configuration'
+
+
+#Route for node/add settings form.
+better_add_content.intro_block_form:
+  path: '/admin/config/first-run/add-content-form'
+  defaults:
+    _form: '\Drupal\better_add_content\Form\AddContentForm'
+    _title: 'Add Content Form'
+  requirements:
+    _permission: 'administer add content form'

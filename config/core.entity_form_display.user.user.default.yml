@@ -1,4 +1,4 @@
-uuid: bfd21f50-7bec-4e9b-a10a-0bdc1cdbcaae
+uuid: 4697581d-0d48-4712-b978-bcaa8c2a9730
 langcode: en
 status: true
 dependencies:
@@ -18,23 +18,15 @@ content:
   account:
     weight: -10
     region: content
-    settings: {  }
-    third_party_settings: {  }
   contact:
     weight: 5
     region: content
-    settings: {  }
-    third_party_settings: {  }
   language:
     weight: 0
     region: content
-    settings: {  }
-    third_party_settings: {  }
   timezone:
     weight: 6
     region: content
-    settings: {  }
-    third_party_settings: {  }
   user_picture:
     type: image_image
     settings:

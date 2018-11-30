@@ -1,8 +1,0 @@
-#Route for node/add settings form.
-fr_add_content.form:
-  path: '/admin/config/first-run/add-content-form'
-  defaults:
-    _form: '\Drupal\fr_add_content\Form\AddContentForm'
-    _title: 'Add Content Form'
-  requirements:
-    _permission: 'administer add content form'

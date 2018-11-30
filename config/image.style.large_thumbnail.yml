@@ -1,11 +1,11 @@
-uuid: 15298b49-578d-49dd-83a9-1ecd7dc09dba
+uuid: 7723c3b0-84ab-4e98-af61-4635ba07fc3c
 langcode: en
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: VrY3Ledee6n-TD1xw_czH_u5wbz5lLnP2EriCKRYP3c
+  default_config_hash: H_RXrfgbaqdoZVnVncy-wSsoT_V1NbICj6Zg8PG8LME
 name: large_thumbnail
-label: 'Large Thumbnail'
+label: 'Large Thumbnail (190x171)'
 effects:
   7633807d-49f2-4060-ac00-ce684a387d45:
     uuid: 7633807d-49f2-4060-ac00-ce684a387d45

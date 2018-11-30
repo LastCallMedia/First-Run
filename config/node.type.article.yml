@@ -1,25 +1,7 @@
-uuid: 0f7e965b-48ea-4fe3-adce-bd506a1cd793
+uuid: 80112b83-ad2e-42b4-a53d-6758e1964115
 langcode: en
 status: true
-dependencies:
-  module:
-    - first_run_tours
-    - fr_add_content
-    - fr_node_type_categories
-    - menu_ui
-third_party_settings:
-  fr_add_content:
-    node_type_live_example: 'http://fr.localhost:8888/admin/structure/types/manage/article?destination=/admin/structure/types'
-    node_type_help_link: 'http://fr.localhost:8888/admin/structure/types/manage/article?destination=/admin/structure/types'
-    node_type_long_description: ''
-  menu_ui:
-    available_menus:
-      - main
-    parent: 'main:'
-  first_run_tours:
-    article: 0
-  fr_node_type_categories:
-    node_type_category: core
+dependencies: {  }
 _core:
   default_config_hash: AeW1SEDgb1OTQACAWGhzvMknMYAJlcZu0jljfeU3oso
 name: Article

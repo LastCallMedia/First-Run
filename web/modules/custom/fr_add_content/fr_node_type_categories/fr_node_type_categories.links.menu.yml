@@ -1,5 +1,0 @@
-#Configuration to create link to Categories List configuration.
-fr_node_type_categories.list.form:
-  title: "Node Type Categories List Configuration"
-  route_name: fr_node_type_categories.list.form
-  parent: fr_core.configuration

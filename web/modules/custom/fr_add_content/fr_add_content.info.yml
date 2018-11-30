@@ -1,7 +1,0 @@
-name: 'First Run Better Add Content Page'
-type: module
-description: 'Provides an add content page with optimizations designed to improve the content creator experience.'
-package: 'Custom'
-core: 8.x
-dependencies:
-- fr_core

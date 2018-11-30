@@ -1,4 +1,4 @@
-uuid: b9385855-4d45-4d41-982e-365e7e7a7803
+uuid: 081f8dd1-6ebe-4795-bdb7-ca69c0ac10c8
 name: 'First Run'
 mail: developers@lastcallmedia.com
 slogan: ''
@@ -11,4 +11,4 @@ weight_select_max: 100
 langcode: en
 default_langcode: en
 _core:
-  default_config_hash: AyT9s8OUcclfALRE_imByOMgtZ19eOlqdF6zI3p7yqo
+  default_config_hash: yXadRE77Va-G6dxhd2kPYapAvbnSvTF6hO4oXiOEynI

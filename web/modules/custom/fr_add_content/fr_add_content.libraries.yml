@@ -1,6 +1,0 @@
-fr_add_content.node-add-list:
-  version: 1.x
-  css:
-    theme:
-      css/node-type-list.css: {}
-      css/node-type-categories-list.css: {}
