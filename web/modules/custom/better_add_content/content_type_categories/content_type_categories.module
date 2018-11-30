@@ -28,7 +28,7 @@ function content_type_categories_help($route_name, RouteMatchInterface $route_ma
  * Implements hook_theme_suggestions_HOOK_alter().
  */
 function content_type_categories_theme_suggestions_node_add_list_alter(array &$suggestions, array $variables) {
-  $suggestions[] = 'node_type_category_list';
+  $suggestions[] = 'node-type-category-list';
 }
 
 /**

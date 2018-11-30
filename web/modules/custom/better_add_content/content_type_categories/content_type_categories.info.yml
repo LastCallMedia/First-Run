@@ -1,4 +1,4 @@
-name: 'First Run Node Type Categories'
+name: 'Content Type Categories'
 type: module
 description: 'A submodule of First Run Better Add Content Page that expands functionality to include node type categorization, and a categories-based display of the node type list.'
 package: 'Custom'

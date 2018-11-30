@@ -1,5 +1,5 @@
 #Configuration to create link to Categories List configuration.
 content_type_categories.list.form:
-  title: "Node Type Categories List Configuration"
+  title: "Content Type Categories List Configuration"
   route_name: content_type_categories.list.form
-  parent: fr_core.configuration
+  parent: better_add_content.configuration

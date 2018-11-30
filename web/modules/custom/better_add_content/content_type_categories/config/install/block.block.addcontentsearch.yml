@@ -9,7 +9,7 @@ dependencies:
 id: addcontentsearch
 theme: seven
 region: content
-weight: -4
+weight: 0
 provider: null
 plugin: add_content_search
 settings:
