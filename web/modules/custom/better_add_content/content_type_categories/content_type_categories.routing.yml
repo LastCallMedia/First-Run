@@ -1,0 +1,8 @@
+#Route for node type categories list form.
+content_type_categories.list.form:
+  path: '/admin/config/first-run/node-type-categories'
+  defaults:
+    _form: '\Drupal\content_type_categories\Form\TypeCategoriesForm'
+    _title: 'Type Categories List Form'
+  requirements:
+    _permission: 'administer node type categories'

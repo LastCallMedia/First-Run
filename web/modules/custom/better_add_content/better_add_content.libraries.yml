@@ -1,0 +1,6 @@
+better_add_content.node-add-list:
+  version: 1.x
+  css:
+    theme:
+      css/node-type-list.css: {}
+      css/better-add-content.page.css: {}

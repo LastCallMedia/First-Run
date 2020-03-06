@@ -1,0 +1,32 @@
+/**
+ * @file
+ *
+ * Custom styles for node type categories list.
+ *
+ */
+
+ul.admin-category-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.admin-category-list .category-details summary.category-header {
+  border-bottom: 1px solid #ccc;
+}
+.admin-category-list .category-details[open] summary.category-header {
+  border-bottom: none;
+}
+
+a.back-to-top {
+  font-weight: normal;
+  font-size: 0.75rem;
+  float: right;
+  display: inline-block;
+}
+
+@media all and (min-width: 950px) {
+  h2.category-header {
+    max-width: 60%;
+  }
+}
+

@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  module:
+  - content_type_categories
+  - system
+  theme:
+  - seven
+id: addcontentsearch
+theme: seven
+region: content
+weight: 0
+provider: null
+plugin: add_content_search
+settings:
+  id: add_content_search
+  label: 'Add Content Search'
+  provider: content_type_categories
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: /node/add
+    negate: false
+    context_mapping: {  }

@@ -1,0 +1,7 @@
+name: 'Content Type Categories'
+type: module
+description: 'A submodule of First Run Better Add Content Page that expands functionality to include node type categorization, and a categories-based display of the node type list.'
+package: 'Custom'
+core: 8.x
+dependencies:
+- better_add_content
