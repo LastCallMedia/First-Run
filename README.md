@@ -1,6 +1,8 @@
 First Run
 ========================
 
+First Run is brought to you by your friends at [Last Call Media](https://www.lastcallmedia.com).
+
 Setting Up for Local Development
 --------------------------------
 Before you begin, you must have Docker and Docker Compose installed on your local machine.  For installation instructions, see the [Docker documentation](/docs/tools/docker.md).
